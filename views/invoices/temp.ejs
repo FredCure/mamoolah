@@ -1,0 +1,23 @@
+<tr>
+    <td><strong>Elements:</strong></td>
+    <td>
+        <%= thisInvoice.elements.order %><br>
+            <%= thisInvoice.elements.date %><br>
+                <%= thisInvoice.elements.description %><br>
+                    <%= thisInvoice.elements.quantity %><br>
+                        <%= thisInvoice.elements.rate %><br>
+                            <%= thisInvoice.elements.taxes %><br>
+                                <%= thisInvoice.elements.workers.name %><br>
+                                    <%= thisInvoice.elements.workers.rate %><br>
+                                        <%= thisInvoice.elements.workers.hours %><br>
+                                            <%= thisInvoice.elements.workers.fixed %><br>
+                                                <%= thisInvoice.elements.workers.subtotal %>
+                                                    <br>
+    </td>
+</tr>
+<tr>
+    <td><strong>Taxes:</strong></td>
+    <td>
+        <%= thisInvoice.taxes %>
+    </td>
+</tr>

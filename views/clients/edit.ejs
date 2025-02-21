@@ -1,0 +1,99 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-6 offset-3">
+        <h1 class="mt-3 mb-3">
+            Edit Client Infos
+        </h1>
+        <div class="card border-secondary mb-3">
+            <div class="card-header">
+                <h3>
+                    <%= thisClient.clientName %>
+                </h3>
+            </div>
+            <div class="card-body text-secondary">
+
+                <form action="/clients/<%= thisClient._id %>?_method=PUT" method="POST" novalidate
+                    class="validated-form">
+                    <div class="mb-3">
+                        <label for="clientName" class="form-label">Client Name</label>
+                        <input type="text" class="form-control" id="clientName" name="client[clientName]"
+                            value="<%= thisClient.clientName %>" required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="client[firstName]"
+                            value="<%= thisClient.firstName %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="client[lastName]"
+                            value="<%= thisClient.lastName %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="phone" name="client[phone]"
+                            value="<%= thisClient.phone %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cell" class="form-label">Mobile Number</label>
+                        <input type="text" class="form-control" id="cell" name="client[cell]"
+                            value="<%= thisClient.cell %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="fax" class="form-label">Fax Number</label>
+                        <input type="text" class="form-control" id="fax" name="client[fax]"
+                            value="<%= thisClient.fax %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="client[email]"
+                            value="<%= thisClient.email %>">
+                    </div>
+                    <div class="mb-3">
+                        <h4>Address</h4>
+                        <label for="invoiceStreet" class="form-label">Street Address</label>
+                        <input type="text" class="form-control" id="invoiceStreet" name="client[invoiceStreet]"
+                            value="<%= thisClient.invoiceStreet %>">
+                        <label for="invoiceCity" class="form-label">City</label>
+                        <input type="text" class="form-control" id="invoiceCity" name="client[invoiceCity]"
+                            value="<%= thisClient.invoiceCity %>">
+                        <label for="invoiceState" class="form-label">State / Province</label>
+                        <input type="text" class="form-control" id="invoiceState" name="client[invoiceState]"
+                            value="<%= thisClient.invoiceState %>">
+                        <label for="invoiceCode" class="form-label">Zip / Postal Code</label>
+                        <input type="text" class="form-control" id="invoiceCode" name="client[invoiceCode]"
+                            value="<%= thisClient.invoiceCode %>">
+                        <label for="invoiceCountry" class="form-label">Country</label>
+                        <input type="text" class="form-control" id="invoiceCountry" name="client[invoiceCountry]"
+                            value="<%= thisClient.invoiceCountry %>">
+                    </div>
+                    <div class="mb-3">
+                        <h4>Shipping Address</h4>
+                        <label for="shipStreet" class="form-label">Street Address</label>
+                        <input type="text" class="form-control" id="shipStreet" name="client[shipStreet]"
+                            value="<%= thisClient.shipStreet %>">
+                        <label for="shipCity" class="form-label">City</label>
+                        <input type="text" class="form-control" id="shipCity" name="client[shipCity]"
+                            value="<%= thisClient.shipCity %>">
+                        <label for="shipState" class="form-label">State / Province</label>
+                        <input type="text" class="form-control" id="shipState" name="client[shipState]"
+                            value="<%= thisClient.shipState %>">
+                        <label for="shipCode" class="form-label">Zip / Postal Code</label>
+                        <input type="text" class="form-control" id="shipCode" name="client[shipCode]"
+                            value="<%= thisClient.shipCode %>">
+                        <label for="shipCountry" class="form-label">Country</label>
+                        <input type="text" class="form-control" id="shipCountry" name="client[shipCountry]"
+                            value="<%= thisClient.shipCountry %>">
+                    </div>
+                    <button class="btn btn-outline-info-subtle bg-info-subtle">Update client</button>
+                </form>
+
+            </div>
+            <div class="card-footer">
+                <a href="/clients/<%= thisClient._id %>">Cancel</a>
+            </div>
+        </div>
+    </div>

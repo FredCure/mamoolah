@@ -1,0 +1,127 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-12 mt-3">
+        <div class="card border-secondary mb-3">
+            <div class="card-header">
+                <h2>
+                    Company Infos :
+                </h2>
+            </div>
+            <div class="card-body text-secondary">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <tbody id="objectTable">
+                            <tr>
+                                <td><strong>Company Logo:</strong></td>
+                                <td>
+                                    <img src="<%= thisCompany.logo %>" alt="Company Logo">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Company Name:</strong></td>
+                                <td>
+                                    <%= thisCompany.name%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Address:</strong></td>
+                                <td>
+                                    <%= thisCompany.compStreet%><br>
+                                        <%= thisCompany.compCity%>, <%= thisCompany.compState%><br>
+                                                <%= thisCompany.compCode%><br>
+                                                    <%= thisCompany.compCountry%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email:</strong></td>
+                                <td>
+                                    <%= thisCompany.email%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phone Number:</strong></td>
+                                <td>
+                                    <%= thisCompany.phone%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Website:</strong></td>
+                                <td>
+                                    <%= thisCompany.website%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Owners:</strong></td>
+                                <td>
+                                    <% thisCompany.owners.forEach(owner=> { %>
+                                        <%= owner.firstName %>
+                                            <%= owner.lastName %><br>
+                                                <% }) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Users:</strong></td>
+                                <td>
+                                    <% thisCompany.users.forEach(user=> { %>
+                                        <%= user.firstName %>
+                                            <%= user.lastName %> -
+                                                <% user.roles.forEach(role=> { %>
+                                                    <%= role.role %><br>
+                                                        <% }) %>
+                                                            <% }) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Company Number:</strong></td>
+                                <td>
+                                    <%= thisCompany.compNumber%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Company Type:</strong></td>
+                                <td>
+                                    <%= thisCompany.compType%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Registered on:</strong></td>
+                                <td>
+                                    <%= new Date(thisCompany.createdAt).toLocaleDateString() %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tax numbers:</strong></td>
+                                <td>
+                                    GST: <%= thisCompany.gstNumber%> @ <%= thisCompany.gstRate%><br>
+                                            PST: <%= thisCompany.pstNumber%> @ <%= thisCompany.pstRate%><br>
+                                                    HST: <%= thisCompany.hstNumber%> @ <%= thisCompany.hstRate%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Invoice Number:</strong></td>
+                                <td>
+                                    <%= thisCompany.currentInvoiceNumber%>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="card-text">
+
+                <form style="display:inline" action="/companies/<%= thisCompany._id %>/edit" method="GET">
+                    <button class="btn btn-outline-info-subtle bg-info-subtle">Edit Company Infos</button>
+                </form>
+                <form style="display:inline" action="/accounts" method="GET">
+                    <button class="btn btn-outline-info-subtle bg-info-subtle">Manage Accounts</button>
+                </form>
+                <form style="display:inline" action="/companies/<%= thisCompany._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-outline-info-subtle bg-danger">Delete Company</button>
+                </form>
+                </p>
+
+            </div>
+            <div class="card-footer">
+                <a href="/">Back to Home</a>
+            </div>
+        </div>
+    </div>

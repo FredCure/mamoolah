@@ -1,0 +1,108 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-6 offset-3">
+        <h1 class="mt-3 mb-3">
+            Register New User
+        </h1>
+        <div class="card border-secondary mb-3">
+            <div class="card-body text-secondary">
+
+                <form action="/users/register" method="POST" novalidate class="validated-form">
+                    <div class="mb-3">
+                        <label for="userName" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="userName" name="user[username]" placeholder=" "
+                            required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="user[password]" placeholder=" "
+                            required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="firstName" class="form-control" id="firstName" name="user[firstName]"
+                            placeholder=" " required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="lastName" class="form-control" id="lastName" name="user[lastName]" placeholder=" "
+                            required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input type="phone" class="form-control" id="phone" name="user[phone]" placeholder=" " required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cell" class="form-label">Cell</label>
+                        <input type="cell" class="form-control" id="cell" name="user[cell]" placeholder=" " required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="street" class="form-label">Street</label>
+                        <input type="street" class="form-control" id="street" name="user[street]" placeholder=" "
+                            required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="city" class="form-label">City</label>
+                        <input type="city" class="form-control" id="city" name="user[city]" placeholder=" " required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="state" class="form-label">State / Province</label>
+                        <input type="state" class="form-control" id="state" name="user[state]" placeholder=" " required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="code" class="form-label">Code</label>
+                        <input type="code" class="form-control" id="code" name="user[code]" placeholder=" " required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="country" class="form-control" id="country" name="user[country]" placeholder=" "
+                            required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="user[email]" placeholder=" " required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-info-subtle bg-info-subtle">Register user</button>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a href="/users">Cancel</a>
+            </div>
+        </div>
+    </div>

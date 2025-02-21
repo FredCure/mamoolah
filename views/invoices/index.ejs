@@ -1,0 +1,27 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-6 offset-3">
+        <h1>All Invoices
+        </h1>
+        <div class="card" mb-3>
+            <div class="row">
+
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/invoices/New">Add new invoice</a></h5>
+                        <p class="card-text">
+                        <ul>
+                            <% for (let invoice of invoices){%>
+                                <li>
+                                    <a href="../invoices/<%= invoice._id %>">
+                                        <%= invoice.client %>
+                                    </a>
+                                </li>
+                                <% }%>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

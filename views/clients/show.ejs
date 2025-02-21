@@ -1,0 +1,106 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-6 offset-3 mt-3">
+        <div class="card border-secondary mb-3">
+            <div class="card-header">
+                <h3>
+                    <%= thisClient.clientName %>
+                </h3>
+            </div>
+            <div class="card-body text-secondary">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <tbody id="objectTable">
+                            <tr>
+                                <td><strong>Contact Name :</strong></td>
+                                <td colspan="2">
+                                    <%= thisClient.firstName %>
+                                        <%= thisClient.lastName %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phone Number :</strong></td>
+                                <td colspan="2">
+                                    <%= thisClient.phone%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cell Number :</strong></td>
+                                <td colspan="2">
+                                    <%= thisClient.cell %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Fax Number :</strong></td>
+                                <td colspan="2">
+                                    <%= thisClient.fax %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email :</strong></td>
+                                <td colspan="2">
+                                    <%= thisClient.email %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Invoice Address :</strong></td>
+                                <td colspan="2">
+                                    <%= thisClient.invoiceStreet %> <br>
+                                        <%= thisClient.invoiceCity %>, <%= thisClient.invoiceState %> <br>
+                                                <%= thisClient.invoiceCode %> <br>
+                                                    <%= thisClient.invoiceCountry %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Shipping Address :</strong></td>
+                                <td colspan="2">
+                                    <%= thisClient.shipStreet %> <br>
+                                        <%= thisClient.shipCity %>, <%= thisClient.shipState %> <br>
+                                                <%= thisClient.shipCode %> <br>
+                                                    <%= thisClient.shipCountry %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><strong>Invoices :</strong></td>
+                            </tr>
+                            <% thisClient.invoices.forEach(element=> { %>
+                                <% if (element.companyId && currentCompany && element.clientId &&
+                                    element.companyId.toString()===currentCompany._id.toString() &&
+                                    element.clientId.toString()===thisClient._id.toString()) { %>
+                                    <tr>
+                                        <td>
+                                            <%= element.number %>
+                                        </td>
+                                        <td>
+                                            <%= new Date(element.date).toISOString().split('T')[0] %>
+                                        </td>
+                                        <td>
+                                            <%= element.total %>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                        <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="card-text">
+
+                <form style="display:inline" action="/clients/<%= thisClient._id %>/edit" method="GET">
+                    <button type="submit" formaction="/clients/<%= thisClient._id %>/edit"
+                        class="btn btn-outline-info-subtle bg-info-subtle">Edit client</button>
+                </form>
+                <form style="display:inline" action="/clients/<%= thisClient._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-outline-info-subtle bg-danger">Delete client</button>
+                </form><br><br>
+                <form action="/invoices/<%= thisClient._id %>/new" method="GET">
+                    <button type="submit" formaction="/invoices/<%= thisClient._id %>/new"
+                        class="btn btn-outline-info-subtle bg-info-subtle">New Invoice</button>
+                </form>
+                </p>
+
+            </div>
+            <div class="card-footer">
+                <a href="/clients">Back to Clients</a>
+            </div>
+        </div>
+    </div>

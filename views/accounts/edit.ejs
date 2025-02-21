@@ -1,0 +1,80 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-6 offset-3">
+        <h1 class="mt-3 mb-3">
+            Edit Account Infos
+        </h1>
+        <div class="card border-secondary mb-3">
+            <div class="card-header">
+                <h3>
+                    <%= thisAccount.accountName %>
+                </h3>
+            </div>
+            <div class="card-body text-secondary">
+
+                <form action="/accounts/<%= thisAccount._id %>?_method=PUT" method="POST" novalidate
+                    class="validated-form">
+                    <div class="mb-3">
+                        <label for="accountName" class="form-label">Account Name</label>
+                        <input type="text" class="form-control" id="accountName" name="account[accountName]"
+                            value="<%= thisAccount.accountName %>" required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="accountType" class="form-label">Account Type</label>
+                        <input type="text" class="form-control" id="accountType" name="account[accountType]"
+                            value="<%= thisAccount.accountType %>" required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="institution" class="form-label">Institution</label>
+                        <input type="text" class="form-control" id="institution" name="account[institution]"
+                            value="<%= thisAccount.institution %>" required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="accountNumber" class="form-label">Account Number</label>
+                        <input type="text" class="form-control" id="accountNumber" name="account[accountNumber]"
+                            value="<%= thisAccount.accountNumber %>" required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="currency" class="form-label">Currency</label>
+                        <input type="text" class="form-control" id="currency" name="account[currency]"
+                            value="<%= thisAccount.currency %>" required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="balance" class="form-label">Current Balance</label>
+                        <input type="number" class="form-control" id="balance" name="account[balance]"
+                            value="<%= thisAccount.balance %>" required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="account[setMainAccount]"
+                            id="setMainAccount">
+                        <label class="form-check-label" for="setMainAccount">
+                            Set as main account
+                        </label>
+                    </div><br>
+                    <button class="btn btn-outline-info-subtle bg-info-subtle">Update account infos</button>
+                </form>
+
+            </div>
+            <div class="card-footer">
+                <a href="/accounts/<%= thisAccount._id %>">Cancel</a>
+            </div>
+        </div>
+    </div>

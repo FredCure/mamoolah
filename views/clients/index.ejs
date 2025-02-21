@@ -1,0 +1,31 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-6 offset-3">
+        <h1>All Clients
+        </h1>
+        <div class="card" mb-3>
+            <div class="row">
+
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/clients/New">Add new client</a></h5>
+                        <p class="card-text">
+                        <ul>
+                            <% for (let client of clients){%>
+                                <% if (client.companyId && currentCompany &&
+                                    client.companyId.toString()===currentCompany._id.toString()) { %>
+                                    <li>
+                                        <a href="../clients/<%= client._id %>">
+                                            <%= client.clientName %><br>
+
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                        <% }%>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

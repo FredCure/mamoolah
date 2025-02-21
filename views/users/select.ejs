@@ -1,0 +1,42 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-6 offset-3 mt-3">
+        <div class="card border-secondary mb-3">
+            <div class="card-header">
+                <h4>
+                    Please select a company to administer :
+                </h4>
+            </div>
+            <div class="card-body text-secondary">
+                <p class="card-text">
+                    <% if (thisUser.companies.length !==0) { %>
+                        <form style="display:inline" action="/users/<%= thisUser._id %>/select" method="POST">
+                            <select name="companyId" class="form-control">
+                                <% thisUser.companies.forEach(comp=> { %>
+                                    <option value="<%= comp._id %>">
+                                        <%= comp.name %>
+                                    </option>
+                                    <% }) %>
+                            </select><br>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="setDefault" id="setDefault">
+                                <label class="form-check-label" for="setDefault">
+                                    Set as default company
+                                </label>
+                            </div><br>
+                            <button type="submit" class="btn btn-outline-info-subtle bg-info-subtle">Select
+                                company</button>
+                        </form><br><br>
+                        <% } %>
+                            <form style="display:inline" action="/companies/new" method="GET">
+                                <button type="submit" class="btn btn-outline-info-subtle bg-info-subtle">Create new
+                                    company</button>
+                            </form><br><br>
+                </p>
+
+            </div>
+            <div class="card-footer">
+                <a href="/users/<%= thisUser._id %>">User Profile</a>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,104 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-12">
+        <h1 class="mt-3 mb-3">
+            Update Company Informations
+        </h1>
+        <div class="card border-secondary mb-3">
+            <div class="card-body text-secondary">
+                <img src="../public/images/logoIdearts.jpeg" alt="Logo Idearts">
+                <form action="/companies/<%= thisCompany._id %>?_method=PUT" method="POST" novalidate
+                    class="validated-form">
+
+                    <label for="publicName" class="form-label">Public Name:</label>
+                    <input type="text" class="form-control" id="name" name="company[name]"
+                        value="<%= thisCompany.name %>" required><br>
+
+                    <label for="logo" class="form-label">Logo:</label>
+                    <input type="text" class="form-control" id="logo" name="company[logo]"
+                        value="<%= thisCompany.logo %>" required><br>
+
+                    <label for="compNumber" class="form-label">Company Number:</label>
+                    <input type="text" class="form-control" id="compNumber" name="company[compNumber]"
+                        value="<%= thisCompany.compNumber %>" required><br>
+
+                    <label for="compType" class="form-label">Company Type:</label>
+                    <input type="text" class="form-control" id="compType" name="company[compType]"
+                        value="<%= thisCompany.compType %>" required><br>
+
+                    <label class="form-label">Address:</label>
+
+                    <label for="compStreet" class="form-label">Street:</label>
+                    <input type="text" class="form-control" id="compStreet" name="company[compStreet]"
+                        value="<%= thisCompany.compStreet %>" required><br>
+
+                    <label for="compCity" class="form-label">City:</label>
+                    <input type="text" class="form-control" id="compCity" name="company[compCity]"
+                        value="<%= thisCompany.compCity %>" required><br>
+
+                    <label for="compState" class="form-label">State / Province:</label>
+                    <input type="text" class="form-control" id="compState" name="company[compState]"
+                        value="<%= thisCompany.compState %>" required><br>
+
+                    <label for="compCode" class="form-label">Code:</label>
+                    <input type="text" class="form-control" id="compCode" name="company[compCode]"
+                        value="<%= thisCompany.compCode %>" required><br>
+
+                    <label for="compCountry" class="form-label">Country:</label>
+                    <input type="text" class="form-control" id="compCountry" name="company[compCountry]"
+                        value="<%= thisCompany.compCountry %>" required><br>
+
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="text" class="form-control" id="email" name="company[email]"
+                        value="<%= thisCompany.email %>" required><br>
+
+                    <label for="phone" class="form-label">Phone Number:</label>
+                    <input type="text" class="form-control" id="phone" name="company[phone]"
+                        value="<%= thisCompany.phone %>" required><br>
+
+                    <label for="website" class="form-label">Website:</label>
+                    <input type="text" class="form-control" id="website" name="company[website]"
+                        value="<%= thisCompany.website %>" required><br>
+
+                    <label for="gstNumber" class="form-label">GST Number:</label>
+                    <input type="text" class="form-control" id="gstNumber" name="company[gstNumber]"
+                        value="<%= thisCompany.gstNumber %>" required><br>
+
+                    <label for="gstRate" class="form-label">GST Rate:</label>
+                    <input type="text" class="form-control" id="gstRate" name="company[gstRate]"
+                        value="<%= thisCompany.gstRate %>" required><br>
+
+                    <label for="pstNumber" class="form-label">PST Number:</label>
+                    <input type="text" class="form-control" id="pstNumber" name="company[pstNumber]"
+                        value="<%= thisCompany.pstNumber %>" required><br>
+
+                    <label for="pstRate" class="form-label">PST Rate:</label>
+                    <input type="text" class="form-control" id="pstRate" name="company[pstRate]"
+                        value="<%= thisCompany.pstRate %>" required><br>
+
+                    <label for="hstNumber" class="form-label">HST Number:</label>
+                    <input type="text" class="form-control" id="hstNumber" name="company[hstNumber]"
+                        value="<%= thisCompany.hstNumber %>" required><br>
+
+                    <label for="hstRate" class="form-label">HST Rate:</label>
+                    <input type="text" class="form-control" id="hstRate" name="company[hstRate]"
+                        value="<%= thisCompany.hstRate %>" required><br>
+
+                    <label for="invoiceNumberPrefix" class="form-label">Invoice Number Prefix:</label>
+                    <input type="text" class="form-control" id="invoiceNumberPrefix" name="company[invoiceNumberPrefix]"
+                        value="<%= thisCompany.invoiceNumberPrefix %>" required><br>
+                    <label for="currentInvoiceNumber" class="form-label">Next Invoice Number:</label>
+                    <input type="number" class="form-control" id="currentInvoiceNumber"
+                        name="company[currentInvoiceNumber]" value="<%= thisCompany.currentInvoiceNumber %>"
+                        required><br>
+
+                    <br>
+
+                    <button class="btn btn-outline-info-subtle bg-info-subtle">Update Company Infos</button>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a href="/">Cancel</a>
+            </div>
+        </div>
+    </div>

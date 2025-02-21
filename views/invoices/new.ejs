@@ -1,0 +1,133 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-12">
+        <h1 class="mt-3 mb-3">
+            New Invoice
+        </h1>
+        <div class="card border-secondary mb-3">
+            <div class="card-body text-secondary">
+
+                <h1>Create New Invoice</h1>
+                <form action="/invoices/<%= thisClient._id %>" method="POST">
+                    <label for="number" class="form-label">Invoice Number:</label>
+                    <%= currentCompany.invoiceNumberPrefix %>
+                        <input type="number" class="form-control" id="number" name="number"
+                            value="<%= currentCompany.currentInvoiceNumber %>" required><br>
+
+                        <label for="client" class="form-label">Client:</label>
+                        <input type="text" class="form-control" id="client" name="client"
+                            value="<%= thisClient.clientName %>" required><br>
+
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<%= thisClient.email %>"
+                            required><br>
+
+                        <label for="date" class="form-label">Date:</label>
+                        <input type="date" class="form-control" id="date" name="date"
+                            value="<%= new Date().toISOString().split('T')[0] %>" required><br>
+
+                        <label for="terms" class="form-label">Select Terms:</label>
+                        <select class="form-control" id="terms" name="terms" required>
+                            <option value="0">COD</option>
+                            <option value="7">7 days</option>
+                            <option value="14">14 days</option>
+                            <option value="30">30 days</option>
+                            <option value="60">60 days</option>
+                            <option value="90">90 days</option>
+                        </select><br>
+
+                        <h3>Elements</h3>
+                        <div class="table-responsive">
+                            <table id="elementsTable" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Quantity</th>
+                                        <th>Rate</th>
+                                        <th>Fixed</th>
+                                        <th>Amount</th>
+                                        <th>Taxes</th>
+                                        <th style="text-align: center;"><img src="/images/bin.svg"
+                                                alt="Girl in a jacket" height="16">
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="date" class="form-control" name="elements[date][]" required>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="elements[description][]"
+                                                required>
+                                        </td>
+                                        <td><input type="number" step="0.25" class="form-control"
+                                                name="elements[quantity][]" value="0" required
+                                                oninput="updateAmount(this)">
+                                        </td>
+                                        <td><input type="number" step="0.01" class="form-control"
+                                                name="elements[rate][]" value="55" required
+                                                oninput="updateAmount(this)"></td>
+                                        <td><input type="number" step="0.01" class="form-control"
+                                                name="elements[fixed][]" value="0" required
+                                                oninput="updateAmount(this)"></td>
+                                        <td><input type="number" class="form-control" name="elements[amount][]" required
+                                                readonly onchange="updateSubtotal()">
+                                        </td>
+                                        <td><select class="form-control" name="elements[taxes][]" required
+                                                oninput="updateAmount(this)">
+                                                <option value="0">N/A</option>
+                                                <option value="14.975" selected>GST/PST</option>
+                                                <option value="5">GST</option>
+                                                <option value="9.975">PST</option>
+                                                <option value="13">HST</option>
+                                            </select></td>
+                                        <td>
+                                            <p> </p>
+                                        </td>
+                                    </tr>
+                                    <!-- Rows will be added here dynamically -->
+                                </tbody>
+                            </table>
+                        </div><br>
+                        <button class="btn btn-outline-info-subtle bg-info-subtle" onclick="addElementRow()">Add
+                            Element</button><br><br>
+
+                        <label for="subtotal" class="form-label">Subtotal:</label>
+                        <input type="number" step="0.01" class="form-control" id="subtotal" name="subtotal"
+                            required><br>
+
+                        <label for="rebateType" class="form-label">Rebate Type:</label>
+                        <select class="form-control" id="rebateType" name="rebateType" onchange="updateSubtotal()">
+                            <option value="amount">Amount</option>
+                            <option value="percentage">Percentage</option>
+                        </select><br>
+
+                        <label for="rebate" class="form-label">Rebate:</label>
+                        <input type="number" class="form-control" id="rebate" name="rebate" value="0" required
+                            oninput="updateSubtotal()"><br>
+
+                        <label for="gst" class="form-label">GST:</label>
+                        <input type="number" class="form-control" id="gst" name="gst" required readonly><br>
+
+                        <label for="pst" class="form-label">PST:</label>
+                        <input type="number" class="form-control" id="pst" name="pst" required readonly><br>
+
+                        <label for="hst" class="form-label">HST:</label>
+                        <input type="number" class="form-control" id="hst" name="hst" required readonly><br>
+
+                        <label for="total" class="form-label">Total:</label>
+                        <input type="number" class="form-control" id="total" name="total" required readonly><br>
+
+                        <label for="deposit" class="form-label">Deposit:</label>
+                        <input type="number" class="form-control" id="deposit" name="deposit" value="0" required><br>
+
+                        <br>
+
+                        <button class="btn btn-outline-info-subtle bg-info-subtle">Create Invoice</button>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a href="/clients/<%= thisClient._id %>">Cancel</a>
+            </div>
+        </div>
+    </div>

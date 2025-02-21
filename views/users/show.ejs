@@ -1,0 +1,121 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-6 offset-3 mt-3">
+        <div class="card border-secondary mb-3">
+            <div class="card-header">
+                <h3>
+                    <%= thisUser.firstName %>
+                        <%= thisUser.lastName %>'s Profile
+                </h3>
+            </div>
+            <div class="card-body text-secondary">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <tbody id="objectTable">
+                            <tr>
+                                <td><strong>Username :</strong></td>
+                                <td colspan="2">
+                                    <%= thisUser.username %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email :</strong></td>
+                                <td colspan="2">
+                                    <%= thisUser.email %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>First Name :</strong></td>
+                                <td colspan="2">
+                                    <%= thisUser.firstName %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Last Name :</strong></td>
+                                <td colspan="2">
+                                    <%= thisUser.lastName %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phone Number :</strong></td>
+                                <td colspan="2">
+                                    <%= thisUser.phone %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cell Number :</strong></td>
+                                <td colspan="2">
+                                    <%= thisUser.cell %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Street :</strong></td>
+                                <td colspan="2">
+                                    <%= thisUser.street %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>City :</strong></td>
+                                <td colspan="2">
+                                    <%= thisUser.city %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>State / Province :</strong></td>
+                                <td colspan="2">
+                                    <%= thisUser.state %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Zip / Postal code :</strong></td>
+                                <td colspan="2">
+                                    <%= thisUser.code %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Country :</strong></td>
+                                <td colspan="2">
+                                    <%= thisUser.country %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><strong>Companies :</strong></td>
+                            </tr>
+                            <% thisUser.companies.forEach(comp=> { %>
+                                <tr>
+                                    <td>
+                                        <%= comp.name %>
+                                    </td>
+                                    <td colspan="2">
+                                        <% thisUser.roles.forEach(role=> { %>
+                                            <% if (role.companyId.toString()===comp._id.toString()) { %>
+                                                <%= role.role %>
+                                                    <% } %>
+                                                        <% }) %>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="card-text">
+
+                <form style="display:inline" action="/users/<%= thisUser._id %>/edit" method="GET">
+                    <button type="submit" formaction="/users/<%= thisUser._id %>/edit"
+                        class="btn btn-outline-info-subtle bg-info-subtle">Edit user</button>
+                </form>
+                <form style="display:inline" action="/users/<%= thisUser._id %>/changePwd" method="GET">
+                    <button type="submit" formaction="/users/<%= thisUser._id %>/changePwd"
+                        class="btn btn-outline-info-subtle bg-info-subtle">Change password</button>
+                </form>
+                <form style="display:inline" action="/users/<%= thisUser._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-outline-info-subtle bg-danger">Delete user</button>
+                </form><br><br>
+                </p>
+
+            </div>
+            <div class="card-footer">
+                <a href="/">Home</a>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,188 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-12 mt-3">
+        <div class="card border-secondary mb-3">
+            <div class="card-header">
+                <h4>
+                    # : <%= thisCompany.invoiceNumberPrefix %>
+                        <%= thisInvoice.number %> - by <%= thisInvoice.author.username %>
+                </h4>
+                <h2>
+                    Invoiced to : <%= thisInvoice.client %>
+                </h2>
+            </div>
+            <div class="card-body text-secondary">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <tbody id="objectTable">
+                            <tr>
+                                <td style="width: 13%"><strong>Contact Name:</strong></td>
+                                <td colspan="4">
+                                    <h3>
+                                        <%= thisClient.firstName %>
+                                            <%= thisClient.lastName %>
+                                    </h3>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>email:</strong></td>
+                                <td colspan="4">
+                                    <%= thisInvoice.email%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Date:</strong></td>
+                                <td colspan="4">
+                                    <%= new Date(thisInvoice.date).toISOString().split('T')[0] %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Terms:</strong></td>
+                                <td colspan="4">
+                                    <% if (thisInvoice.terms===0) { %>
+                                        COD - Payable on Receipt
+                                        <% } else { %>
+                                            <%=thisInvoice.terms %> days
+                                                <% } %>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5"><strong>Elements:</strong></td>
+                            </tr>
+                            <td colspan="5">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Description</th>
+                                            <th>Quantity</th>
+                                            <th>Rate</th>
+                                            <th>Fixed Price</th>
+                                            <th>Amount</th>
+                                            <th>Taxes</th>
+                                        </tr>
+                                        <% thisInvoice.elements.forEach(element=> { %>
+                                            <tr>
+                                                <td>
+                                                    <%= new Date(element.date).toISOString().split('T')[0] %>
+                                                </td>
+                                                <td>
+                                                    <%= element.description %>
+                                                </td>
+                                                <td>
+                                                    <%= element.quantity %>
+                                                </td>
+                                                <td>
+                                                    $ <%= element.rate.toFixed(2) %>/hr
+                                                </td>
+                                                <td>
+                                                    $ <%= element.fixed.toFixed(2) %>
+                                                </td>
+                                                <td>
+                                                    $ <%= element.amount.toFixed(2) %>
+                                                </td>
+                                                <td>
+                                                    <% if (element.taxes==5) { %>
+                                                        GST
+                                                        <% } else if (element.taxes==9.975) { %>
+                                                            PST
+                                                            <% } else if (element.taxes==13) { %>
+                                                                HST
+                                                                <% } else if (element.taxes==14.975) { %>
+                                                                    GST/PST
+                                                                    <% } else { %>
+                                                                        N/A
+                                                                        <% } %>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                    </tbody>
+                                </table>
+                            </td>
+
+                            <tr>
+                                <td><strong>Subtotal:</strong></td>
+                                <td colspan="4">
+                                    $ <%= thisInvoice.subtotal.toFixed(2) %>
+                                </td>
+                            </tr>
+                            <% if (thisInvoice.gst> 0) { %>
+                                <tr>
+                                    <td><strong>GST:</strong></td>
+                                    <td colspan="4">
+                                        $ <%= thisInvoice.gst.toFixed(2) %>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                    <% if (thisInvoice.pst> 0) { %>
+                                        <tr>
+                                            <td><strong>PST:</strong></td>
+                                            <td colspan="4">
+                                                $ <%= thisInvoice.pst.toFixed(2) %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                            <% if (thisInvoice.hst> 0) { %>
+                                                <tr>
+                                                    <td><strong>HST:</strong></td>
+                                                    <td colspan="4">
+                                                        $ <%= thisInvoice.hst.toFixed(2) %>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                                    <% if (thisInvoice.rebate> 0) { %>
+                                                        <tr>
+                                                            <td><strong>Rebate:</strong></td>
+                                                            <td colspan="4">
+                                                                <% if (thisInvoice.rebateType==="amount" ) { %>
+                                                                    $<% } %>
+                                                                        <%= thisInvoice.rebate.toFixed(2) %>
+                                                                            <% if (thisInvoice.rebateType==="percentage"
+                                                                                ) { %>
+                                                                                %
+                                                                                <% } %>
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                                            <tr>
+                                                                <td><strong>Total:</strong></td>
+                                                                <td colspan="4">
+                                                                    $ <%= thisInvoice.total.toFixed(2) %>
+                                                                </td>
+                                                            </tr>
+                                                            <% if (thisInvoice.deposit> 0) { %>
+                                                                <tr>
+                                                                    <td><strong>Deposit:</strong></td>
+                                                                    <td colspan="4">
+                                                                        $ <%= thisInvoice.deposit.toFixed(2) %>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><strong>Remaining Balance:</strong></td>
+                                                                    <td colspan="4">
+                                                                        $ <%= (thisInvoice.total -
+                                                                            thisInvoice.deposit).toFixed(2) %>
+                                                                    </td>
+                                                                </tr>
+                                                                <% } %>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="card-text">
+
+                <form style="display:inline" action="/invoices/<%= thisInvoice._id %>/edit" method="GET">
+                    <button type="submit" formaction="/invoices/<%= thisInvoice._id %>/edit"
+                        class="btn btn-outline-info-subtle bg-info-subtle">Edit Invoice</button>
+                </form>
+                <form style="display:inline" action="/invoices/<%= thisInvoice._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-outline-info-subtle bg-danger">Delete Invoice</button>
+                </form>
+                </p>
+
+            </div>
+            <div class="card-footer">
+                <a href="/clients/<%= thisClient._id %>">Back to Client</a>
+            </div>
+        </div>
+    </div>
