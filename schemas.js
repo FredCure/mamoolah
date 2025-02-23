@@ -94,12 +94,54 @@ module.exports.companyUpdateSchema = Joi.object({
 
 module.exports.accountSchema = Joi.object({
     account: Joi.object({
-        accountName: Joi.string().required(),
-        accountType: Joi.string().allow("", null),
-        institution: Joi.string().allow("", null),
-        accountNumber: Joi.string().allow("", null),
-        currency: Joi.string().allow("", null),
+        name: Joi.string().required(),
+        type: Joi.string().valid('asset', 'liability', 'equity', 'income', 'expense', 'cogs').required(),
+        subType: Joi.string().valid(
+            'checking', 'savings', 'cash',
+            'ar',            // Accounts Receivable
+            'inventory',     // Inventory related
+            'fixed_asset',   // Fixed assets like property, vehicles, equipment
+            'prepaid',       // Prepaid expenses
+            'credit_card',   // Credit card related
+            'tax',           // Tax liabilities
+            'mortgage',      // Mortgage liabilities
+            'loan',          // General loans
+            'capital',       // Owner's Capital
+            'drawings',      // Owner's Drawings
+            'retained',      // Retained Earnings
+            'sales',         // Sales Revenue
+            'service',       // Service Revenue
+            'interest',      // Interest Income
+            'rental',        // Rental Income
+            'refund',        // Refunds & Rebates
+            'rent_expense',  // Rent Expense
+            'utilities',     // Utilities Expense
+            'office_supplies', // Office Supplies Expense
+            'salaries',      // Salaries & Wages
+            'payroll_tax',   // Payroll Taxes
+            'employee_benefits', // Employee Benefits
+            'advertising',   // Advertising Expense
+            'seo',           // Website & SEO Expense
+            'travel',        // Business Travel Expense
+            'meals',         // Meals & Entertainment Expense
+            'bank_fees',     // Bank Fees Expense
+            'loan_interest', // Loan Interest Expense
+            'cc_fees',       // Credit Card Fees Expense
+            'cloud',         // Cloud Services Expense
+            'software',      // Software Subscriptions Expense
+            'maintenance',   // Equipment Maintenance Expense
+            'repairs',       // Building Repairs Expense
+            'raw_material',  // Raw Materials Cost (COGS)
+            'labor',         // Manufacturing Labor Cost (COGS)
+            'shipping',      // Shipping & Freight Cost (COGS)
+            'factory',       // Factory Overheads
+            'packaging',      // Packaging Costs (COGS) 
+            'other'
+        ).required(),
+        code: Joi.string().allow("", null),
+        description: Joi.string().allow("", null),
         balance: Joi.number().default(0).required(),
+        currency: Joi.string().allow("", null),
         setMainAccount: Joi.boolean().optional()
     }).required()
 });

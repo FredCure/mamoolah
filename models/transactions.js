@@ -6,12 +6,12 @@ const TransactionSchema = new Schema({
     transactionDate: { type: Date, required: true },
     type: { type: String, enum: ['deposit', 'withdrawal'], required: true },
     accountId: { type: mongoose.Schema.Types.ObjectId, ref: 'Account', required: true },
+    categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
+    invoiceId: { type: mongoose.Schema.Types.ObjectId, ref: 'Invoice', required: true },
+    supplierId: { type: mongoose.Schema.Types.ObjectId, ref: 'Supplier', required: true },
     amount: { type: Number, required: true, min: 0 },
     currency: { type: String, required: true, default: 'CAD' },
-    entityId: { type: mongoose.Schema.Types.ObjectId, refPath: 'entityType' }, // Generic reference field
-    entityType: { type: String, enum: ['Invoice', 'Expense', 'Revenue', 'Transfer'] }, // Type of the referenced entity
     paymentMethod: { type: String, enum: ['bank_transfer', 'credit_card', 'paypal', 'cash'], required: true },
-    status: { type: String, enum: ['pending', 'completed', 'failed'], required: true },
     processedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 }, { timestamps: true });
 

@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
 
     <div class="col-6 offset-3">
-        <h1>All Accounts
+        <h1>Charter Of Accounts (COA)
         </h1>
         <div class="card" mb-3>
             <div class="row">
@@ -16,7 +16,7 @@
                                     account.companyId.toString()===currentCompany._id.toString()) { %>
                                     <li>
                                         <a href="../accounts/<%= account._id %>">
-                                            <%= account.accountName %><br>
+                                            <%= account.name %><br>
 
                                         </a>
                                     </li>

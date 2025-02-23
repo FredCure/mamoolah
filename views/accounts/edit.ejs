@@ -7,7 +7,7 @@
         <div class="card border-secondary mb-3">
             <div class="card-header">
                 <h3>
-                    <%= thisAccount.accountName %>
+                    <%= thisAccount.name %>
                 </h3>
             </div>
             <div class="card-body text-secondary">
@@ -15,33 +15,135 @@
                 <form action="/accounts/<%= thisAccount._id %>?_method=PUT" method="POST" novalidate
                     class="validated-form">
                     <div class="mb-3">
-                        <label for="accountName" class="form-label">Account Name</label>
-                        <input type="text" class="form-control" id="accountName" name="account[accountName]"
-                            value="<%= thisAccount.accountName %>" required>
+                        <label for="name" class="form-label">Account Name</label>
+                        <input type="text" class="form-control" id="name" name="account[name]"
+                            value="<%= thisAccount.name %>" required>
                         <div class="valid-feedback">
                             Thank you!
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="accountType" class="form-label">Account Type</label>
-                        <input type="text" class="form-control" id="accountType" name="account[accountType]"
-                            value="<%= thisAccount.accountType %>" required>
+                        <label for="Thank" class="form-label">Account Type</label>
+                        <select class="form-control" id="type" name="account[type]" required>
+                            <option value="" disabled>Select account type</option>
+                            <option value="asset" <%=thisAccount.type==='asset' ? 'selected' : '' %>>Asset</option>
+                            <option value="liability" <%=thisAccount.type==='liability' ? 'selected' : '' %>>Liability
+                            </option>
+                            <option value="equity" <%=thisAccount.type==='equity' ? 'selected' : '' %>>Equity</option>
+                            <option value="income" <%=thisAccount.type==='income' ? 'selected' : '' %>>Income</option>
+                            <option value="expense" <%=thisAccount.type==='expense' ? 'selected' : '' %>>Expense
+                            </option>
+                            <option value="cogs" <%=thisAccount.type==='cogs' ? 'selected' : '' %>>Cost of Goods Sold
+                                (COGS)</option>
+                        </select>
                         <div class="valid-feedback">
                             Thank you!
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="institution" class="form-label">Institution</label>
-                        <input type="text" class="form-control" id="institution" name="account[institution]"
-                            value="<%= thisAccount.institution %>" required>
+                        <label for="Thank" class="form-label">Account Sub-Type</label>
+                        <select class="form-control" id="subType" name="account[subType]" required>
+                            <option value="" disabled>Select account sub-type</option>
+                            <option value="checking" <%=thisAccount.subType==='checking' ? 'selected' : '' %>>Checking
+                            </option>
+                            <option value="savings" <%=thisAccount.subType==='savings' ? 'selected' : '' %>>Savings
+                            </option>
+                            <option value="cash" <%=thisAccount.subType==='cash' ? 'selected' : '' %>>Cash</option>
+                            <option value="ar" <%=thisAccount.subType==='ar' ? 'selected' : '' %>>Accounts Receivable
+                            </option>
+                            <option value="inventory" <%=thisAccount.subType==='inventory' ? 'selected' : '' %>
+                                >Inventory</option>
+                            <option value="fixed_asset" <%=thisAccount.subType==='fixed_asset' ? 'selected' : '' %>
+                                >Fixed Asset</option>
+                            <option value="prepaid" <%=thisAccount.subType==='prepaid' ? 'selected' : '' %>>Prepaid
+                            </option>
+                            <option value="credit_card" <%=thisAccount.subType==='credit_card' ? 'selected' : '' %>
+                                >Credit Card</option>
+                            <option value="tax" <%=thisAccount.subType==='tax' ? 'selected' : '' %>>Tax</option>
+                            <option value="mortgage" <%=thisAccount.subType==='mortgage' ? 'selected' : '' %>>Mortgage
+                            </option>
+                            <option value="loan" <%=thisAccount.subType==='loan' ? 'selected' : '' %>>Loan</option>
+                            <option value="capital" <%=thisAccount.subType==='capital' ? 'selected' : '' %>>Capital
+                            </option>
+                            <option value="drawings" <%=thisAccount.subType==='drawings' ? 'selected' : '' %>>Drawings
+                            </option>
+                            <option value="retained" <%=thisAccount.subType==='retained' ? 'selected' : '' %>>Retained
+                            </option>
+                            <option value="sales" <%=thisAccount.subType==='sales' ? 'selected' : '' %>>Sales</option>
+                            <option value="service" <%=thisAccount.subType==='service' ? 'selected' : '' %>>Service
+                            </option>
+                            <option value="interest" <%=thisAccount.subType==='interest' ? 'selected' : '' %>>Interest
+                            </option>
+                            <option value="rental" <%=thisAccount.subType==='rental' ? 'selected' : '' %>>Rental
+                            </option>
+                            <option value="refund" <%=thisAccount.subType==='refund' ? 'selected' : '' %>>Refund
+                            </option>
+                            <option value="rent_expense" <%=thisAccount.subType==='rent_expense' ? 'selected' : '' %>
+                                >Rent Expense</option>
+                            <option value="utilities" <%=thisAccount.subType==='utilities' ? 'selected' : '' %>
+                                >Utilities</option>
+                            <option value="office_supplies" <%=thisAccount.subType==='office_supplies' ? 'selected' : ''
+                                %>>Office Supplies</option>
+                            <option value="salaries" <%=thisAccount.subType==='salaries' ? 'selected' : '' %>>Salaries
+                            </option>
+                            <option value="payroll_tax" <%=thisAccount.subType==='payroll_tax' ? 'selected' : '' %>
+                                >Payroll Tax</option>
+                            <option value="employee_benefits" <%=thisAccount.subType==='employee_benefits' ? 'selected'
+                                : '' %>>Employee Benefits</option>
+                            <option value="advertising" <%=thisAccount.subType==='advertising' ? 'selected' : '' %>
+                                >Advertising</option>
+                            <option value="seo" <%=thisAccount.subType==='seo' ? 'selected' : '' %>>SEO</option>
+                            <option value="travel" <%=thisAccount.subType==='travel' ? 'selected' : '' %>>Travel
+                            </option>
+                            <option value="meals" <%=thisAccount.subType==='meals' ? 'selected' : '' %>>Meals</option>
+                            <option value="bank_fees" <%=thisAccount.subType==='bank_fees' ? 'selected' : '' %>>Bank
+                                Fees</option>
+                            <option value="loan_interest" <%=thisAccount.subType==='loan_interest' ? 'selected' : '' %>
+                                >Loan Interest</option>
+                            <option value="cc_fees" <%=thisAccount.subType==='cc_fees' ? 'selected' : '' %>>Credit Card
+                                Fees</option>
+                            <option value="cloud" <%=thisAccount.subType==='cloud' ? 'selected' : '' %>>Cloud</option>
+                            <option value="software" <%=thisAccount.subType==='software' ? 'selected' : '' %>>Software
+                            </option>
+                            <option value="maintenance" <%=thisAccount.subType==='maintenance' ? 'selected' : '' %>
+                                >Maintenance</option>
+                            <option value="repairs" <%=thisAccount.subType==='repairs' ? 'selected' : '' %>>Repairs
+                            </option>
+                            <option value="raw_material" <%=thisAccount.subType==='raw_material' ? 'selected' : '' %>
+                                >Raw Material</option>
+                            <option value="labor" <%=thisAccount.subType==='labor' ? 'selected' : '' %>>Labor</option>
+                            <option value="shipping" <%=thisAccount.subType==='shipping' ? 'selected' : '' %>>Shipping
+                            </option>
+                            <option value="factory" <%=thisAccount.subType==='factory' ? 'selected' : '' %>>Factory
+                            </option>
+                            <option value="packaging" <%=thisAccount.subType==='packaging' ? 'selected' : '' %>
+                                >Packaging</option>
+                            <option value="other" <%=thisAccount.subType==='other' ? 'selected' : '' %>>Other</option>
+                        </select>
                         <div class="valid-feedback">
                             Thank you!
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="accountNumber" class="form-label">Account Number</label>
-                        <input type="text" class="form-control" id="accountNumber" name="account[accountNumber]"
-                            value="<%= thisAccount.accountNumber %>" required>
+                        <label for="code" class="form-label">Code</label>
+                        <input type="number" class="form-control" id="code" name="account[code]"
+                            value="<%= thisAccount.code %>" required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="description" name="account[description]"
+                            value="<%= thisAccount.description %>" required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="balance" class="form-label">Starting Balance</label>
+                        <input type="number" class="form-control" id="balance" name="account[balance]"
+                            value="<%= thisAccount.balance %>" required>
                         <div class="valid-feedback">
                             Thank you!
                         </div>
@@ -54,21 +156,7 @@
                             Thank you!
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="balance" class="form-label">Current Balance</label>
-                        <input type="number" class="form-control" id="balance" name="account[balance]"
-                            value="<%= thisAccount.balance %>" required>
-                        <div class="valid-feedback">
-                            Thank you!
-                        </div>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="account[setMainAccount]"
-                            id="setMainAccount">
-                        <label class="form-check-label" for="setMainAccount">
-                            Set as main account
-                        </label>
-                    </div><br>
+                    <br>
                     <button class="btn btn-outline-info-subtle bg-info-subtle">Update account infos</button>
                 </form>
 

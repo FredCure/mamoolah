@@ -9,37 +9,88 @@
 
                 <form action="/accounts" method="POST" novalidate class="validated-form">
                     <div class="mb-3">
-                        <label for="accountName" class="form-label">Account Name</label>
-                        <input type="text" class="form-control" id="accountName" name="account[accountName]" required>
+                        <label for="name" class="form-label">Account Name</label>
+                        <input type="text" class="form-control" id="name" name="account[name]" required>
                         <div class="valid-feedback">
                             Thank you!
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="accountType" class="form-label">Account Type</label>
-                        <input type="text" class="form-control" id="accountType" name="account[accountType]" required>
+                        <label for="Thank" class="form-label">Account Type</label>
+                        <select class="form-control" id="type" name="account[type]" required>
+                            <option value="" disabled selected>Select account type</option>
+                            <option value="asset">Asset</option>
+                            <option value="liability">Liability</option>
+                            <option value="equity">Equity</option>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                            <option value="cogs">Cost of Goods Sold (COGS)</option>
+                        </select>
                         <div class="valid-feedback">
                             Thank you!
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="institution" class="form-label">Institution</label>
-                        <input type="text" class="form-control" id="institution" name="account[institution]" required>
+                        <label for="Thank" class="form-label">Account Sub-Type</label>
+                        <select class="form-control" id="subType" name="account[subType]" required>
+                            <option value="" disabled selected>Select account sub-type</option>
+                            <option value="checking">Checking</option>
+                            <option value="savings">Savings</option>
+                            <option value="cash">Cash</option>
+                            <option value="ar">Accounts Receivable</option>
+                            <option value="inventory">Inventory</option>
+                            <option value="fixed_asset">Fixed Asset</option>
+                            <option value="prepaid">Prepaid</option>
+                            <option value="credit_card">Credit Card</option>
+                            <option value="tax">Tax</option>
+                            <option value="mortgage">Mortgage</option>
+                            <option value="loan">Loan</option>
+                            <option value="capital">Capital</option>
+                            <option value="drawings">Drawings</option>
+                            <option value="retained">Retained</option>
+                            <option value="sales">Sales</option>
+                            <option value="service">Service</option>
+                            <option value="interest">Interest</option>
+                            <option value="rental">Rental</option>
+                            <option value="refund">Refund</option>
+                            <option value="rent_expense">Rent Expense</option>
+                            <option value="utilities">Utilities</option>
+                            <option value="office_supplies">Office Supplies</option>
+                            <option value="salaries">Salaries</option>
+                            <option value="payroll_tax">Payroll Tax</option>
+                            <option value="employee_benefits">Employee Benefits</option>
+                            <option value="advertising">Advertising</option>
+                            <option value="seo">SEO</option>
+                            <option value="travel">Travel</option>
+                            <option value="meals">Meals</option>
+                            <option value="bank_fees">Bank Fees</option>
+                            <option value="loan_interest">Loan Interest</option>
+                            <option value="cc_fees">Credit Card Fees</option>
+                            <option value="cloud">Cloud</option>
+                            <option value="software">Software</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="repairs">Repairs</option>
+                            <option value="raw_material">Raw Material</option>
+                            <option value="labor">Labor</option>
+                            <option value="shipping">Shipping</option>
+                            <option value="factory">Factory</option>
+                            <option value="packaging">Packaging</option>
+                            <option value="other">Other</option>
+                        </select>
                         <div class="valid-feedback">
                             Thank you!
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="accountNumber" class="form-label">Account Number</label>
-                        <input type="text" class="form-control" id="accountNumber" name="account[accountNumber]"
-                            required>
+                        <label for="code" class="form-label">Code</label>
+                        <input type="number" class="form-control" id="code" name="account[code]" required>
                         <div class="valid-feedback">
                             Thank you!
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="currency" class="form-label">Currency</label>
-                        <input type="text" class="form-control" id="currency" name="account[currency]" required>
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="description" name="account[description]" required>
                         <div class="valid-feedback">
                             Thank you!
                         </div>
@@ -51,13 +102,14 @@
                             Thank you!
                         </div>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="account[setMainAccount]"
-                            id="setMainAccount">
-                        <label class="form-check-label" for="setMainAccount">
-                            Set as main account
-                        </label>
-                    </div><br>
+                    <div class="mb-3">
+                        <label for="currency" class="form-label">Currency</label>
+                        <input type="text" class="form-control" id="currency" name="account[currency]" required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <br>
                     <button class="btn btn-outline-info-subtle bg-info-subtle">Save new account</button>
                 </form>
 

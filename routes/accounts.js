@@ -32,23 +32,12 @@ router.get('/new', isLoggedIn, (req, res) => {
     res.render('accounts/new');
 })
 
-router.post('/', isLoggedIn, (req, res, next) => {
-    // Convert checkbox value to boolean
-    if (req.body.account.setMainAccount) {
-        req.body.account.setMainAccount = true;
-    } else {
-        req.body.account.setMainAccount = false;
-    }
-    next();
-}, validateAccount, catchAsync(async (req, res, next) => {
+router.post('/', isLoggedIn, validateAccount, catchAsync(async (req, res, next) => {
     const account = new Account(req.body.account);
     account.createdAt = Date.now();
     account.companyId = res.locals.currentCompany._id;
-    if (req.body.account.setMainAccount) {
-        await Company.findByIdAndUpdate(res.locals.currentCompany._id, { mainAccountId: account._id });
-    }
     await account.save();
-    await logAction(req.user.id, 'CREATE', 'Account', account._id, { accountName: account.accountName, setMainAccount: req.body.account.setMainAccount });
+    await logAction(req.user.id, 'CREATE', 'Account', account._id, { accountName: account.accountName });
     req.flash('success', 'New account added successfully');
     res.redirect(`/accounts/${account.id}`);
 }))
@@ -68,15 +57,7 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     res.render('accounts/edit', { thisAccount })
 }))
 
-router.put('/:id', isLoggedIn, (req, res, next) => {
-    // Convert checkbox value to boolean
-    if (req.body.account.setMainAccount) {
-        req.body.account.setMainAccount = true;
-    } else {
-        req.body.account.setMainAccount = false;
-    }
-    next();
-}, validateAccount, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validateAccount, catchAsync(async (req, res) => {
     const { id } = req.params;
     req.body.account.updatedAt = Date.now();
 
@@ -95,14 +76,6 @@ router.put('/:id', isLoggedIn, (req, res, next) => {
                 new: updatedAccount[key]
             };
         }
-    }
-
-    // Check if setMainAccount has changed
-    const company = await Company.findById(res.locals.currentCompany._id);
-    if (updatedAccount.setMainAccount) {
-        await Company.findByIdAndUpdate(res.locals.currentCompany._id, { mainAccountId: updatedAccount._id });
-    } else if (!updatedAccount.setMainAccount) {
-        delete changedFields.setMainAccount;
     }
 
     const account = await Account.findByIdAndUpdate(id, { ...req.body.account });

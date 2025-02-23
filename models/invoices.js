@@ -1,38 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// const InvoiceSchema = new Schema({
-//     invoiceNumber: { type: String, unique: true, required: true },
-//     companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true },
-//     customerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Client', required: true },
-//     issuedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-//     items: [
-//         {
-//             description: { type: String, required: true },
-//             quantity: { type: Number, required: true },
-//             unitPrice: { type: Number, required: true },
-//             total: { type: Number, required: true } // quantity * unitPrice
-//         }
-//     ],
-//     subtotal: { type: Number, required: true }, // Sum of item totals
-//     taxAmount: { type: Number, required: true }, // Calculated based on subtotal and taxRate
-//     totalAmount: { type: Number, required: true }, // subtotal + taxAmount
-//     payments: [
-//         {
-//             amount: { type: Number, required: true },
-//             date: { type: Date, required: true },
-//             method: { type: String, required: true }
-//         }
-//     ],
-//     balance: { type: Number, required: true }, // totalAmount - sum of payments
-//     status: { type: String, enum: ['Pending', 'Paid', 'Overdue'], default: 'Pending' },
-//     issueDate: { type: Date, required: true },
-//     dueDate: { type: Date, required: true },
-//     createdAt: { type: Date, default: Date.now }
-// });
-
-
-
 
 const WorkerSchema = new Schema({
     name: { type: String, required: true },
@@ -80,11 +48,11 @@ const InvoiceSchema = new Schema({
     total: { type: Number, required: true },
     currency: { type: String, required: true, default: 'CAD' },
     deposit: { type: Number, required: true, default: 0 },
-    status: { type: String, enum: ['Pending', 'Partial', 'Paid', 'Overdue'], required: true, default: 'Pending' },
+    status: { type: String, enum: ['Pending', 'Partial', 'Paid', 'Overdue', 'Refunded'], required: true, default: 'Pending' },
     paidAmount: { type: Number, required: true, default: 0 },
     balance: { type: Number, required: true, default: 0 },
     transactions: [{ type: Schema.Types.ObjectId, ref: 'Transaction' }],
-});
+}, { timestamps: true });
 
 // Pre-save hook to set the default value of balance to the value of total
 InvoiceSchema.pre('save', function (next) {
