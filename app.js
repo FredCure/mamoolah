@@ -25,7 +25,7 @@ const companiesRoutes = require('./routes/companies');
 const accountsRoutes = require('./routes/accounts');
 const clientsRoutes = require('./routes/clients');
 const invoicesRoutes = require('./routes/invoices');
-const transactionRoutes = require('./routes/transactions');
+const transactionsRoutes = require('./routes/transactions');
 
 
 mongoose.connect('mongodb://localhost:27017/mamoolah');
@@ -97,7 +97,7 @@ app.use('/companies', companiesRoutes);
 app.use('/accounts', accountsRoutes);
 app.use('/clients', clientsRoutes);
 app.use('/invoices', invoicesRoutes);
-app.use('/transactions', transactionRoutes);
+app.use('/transactions', transactionsRoutes);
 
 
 

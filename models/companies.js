@@ -14,7 +14,7 @@ const CompanySchema = new Schema({
     compState: { type: String },
     compCode: { type: String },
     compCountry: { type: String },
-    email: { type: String },
+    email: { type: String, required: true },
     phone: { type: String },
     website: { type: String },
     gstNumber: { type: String },
@@ -26,5 +26,7 @@ const CompanySchema = new Schema({
     currentInvoiceNumber: { type: Number, default: 1 },
     invoiceNumberPrefix: { type: String },
 });
+
+CompanySchema.index({ email: 1 }, { unique: true });
 
 module.exports = mongoose.model('Company', CompanySchema);

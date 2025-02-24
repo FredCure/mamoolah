@@ -1,0 +1,107 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-12 mt-3">
+        <div class="card border-secondary mb-3">
+            <div class="card-header">
+                <h2>
+                    Company Users :
+                </h2>
+            </div>
+            <div class="card-body text-secondary">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <tbody id="objectTable">
+                            <tr>
+                                <td><strong>Owners:</strong></td>
+                                <td>
+                                    <% thisCompany.owners.forEach(owner=> { %>
+                                        <%= owner.firstName %>
+                                            <%= owner.lastName %><br>
+                                                <% }) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Users:</strong></td>
+                                <td>
+                                    <% thisCompany.users.forEach(user=> { %>
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div>
+                                                <%= user.firstName %>
+                                                    <%= user.lastName %> -
+                                                        <% user.roles.forEach(role=> { %>
+                                                            <%= role.role %><br>
+                                                                <% }) %>
+                                            </div>
+                                            <button type="button" class="btn btn-outline-info-subtle bg-info-subtle"
+                                                data-bs-toggle="modal" data-bs-target="#userModal<%= user._id %>">
+                                                Manage User
+                                            </button>
+                                        </div>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="userModal<%= user._id %>" tabindex="-1"
+                                            aria-labelledby="userModalLabel<%= user._id %>" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="userModalLabel<%= user._id %>">
+                                                            Manage User: <%= user.firstName %>
+                                                                <%= user.lastName %>
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form
+                                                            action="/companies/<%= thisCompany._id %>/users/<%= user._id %>/update-role"
+                                                            method="POST">
+                                                            <div class="mb-3">
+                                                                <label for="role" class="form-label">Select
+                                                                    Role</label>
+                                                                <select class="form-control" id="role" name="role">
+                                                                    <option value="owner" <%=user.roles.some(r=> r.role
+                                                                        === 'owner') ? 'selected' : '' %>>Owner
+                                                                    </option>
+                                                                    <option value="admin" <%=user.roles.some(r=> r.role
+                                                                        === 'admin') ? 'selected' : '' %>>Admin
+                                                                    </option>
+                                                                    <option value="employee" <%=user.roles.some(r=>
+                                                                        r.role === 'employee') ? 'selected' : ''
+                                                                        %>>Employee
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                            <button type="submit"
+                                                                class="btn btn-outline-info-subtle bg-info-subtle">Update
+                                                                Role</button>
+                                                        </form>
+                                                        <hr>
+                                                        <form
+                                                            action="/companies/<%= thisCompany._id %>/users/<%= user._id %>/remove"
+                                                            method="POST">
+                                                            <button type="submit" class="btn btn-outline-danger">Remove
+                                                                User from Company</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="card-text">
+
+                <form style="display:inline" action="/companies/<%= thisCompany._id %>/invite" method="GET">
+                    <button class="btn btn-outline-info-subtle bg-info-subtle">Invite New User</button>
+                </form>
+                </p>
+
+            </div>
+            <div class="card-footer">
+                <a href="/">Back to Home</a>
+            </div>
+        </div>
+    </div>

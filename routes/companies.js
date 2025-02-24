@@ -106,6 +106,33 @@ router.put('/:id', isLoggedIn, validateCompanyUpdate, catchAsync(async (req, res
     res.redirect(`/companies/${company._id}`)
 }))
 
+router.get('/:id/compUsers', isLoggedIn, catchAsync(async (req, res) => {
+    const thisCompany = await Company.findById(req.params.id)
+        .populate('owners')
+        .populate({
+            path: 'users',
+            populate: {
+                path: 'roles',
+                model: 'Role',
+                match: { companyId: req.params.id }
+            }
+        });
+    res.render('companies/compUsers', { thisCompany })
+}))
+
+router.get('/companies/:id/compUsers/:id/update-role', isLoggedIn, catchAsync(async (req, res) => {
+    // const company = new Company(req.body.company);
+    // const thisUser = await User.findById(req.user.id);
+    // const role = new Role({ userId: thisUser.id, companyId: company.id, role: req.body.company.role });
+    // thisUser.companies.push(company);
+    // thisUser.roles.push(role);
+    // await company.save();
+    // await thisUser.save();
+    // await role.save();
+    // await logAction(req.user.id, 'UPDATE', 'Role', role._id, { companyName: company.name });
+    // res.redirect('companies/compUsers', { thisCompany })
+}))
+
 router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     const company = await Company.findByIdAndDelete(id);
