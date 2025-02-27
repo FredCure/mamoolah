@@ -1,4 +1,7 @@
 const express = require('express');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const Invite = require('../models/invites');
 const { isLoggedIn, logAction } = require('../middleware');
 const User = require('../models/users');
 const Company = require('../models/companies');
@@ -19,7 +22,7 @@ const validateCompanyCreate = (req, res, next) => {
     } else {
         next();
     }
-}
+};
 
 const validateCompanyUpdate = (req, res, next) => {
     const { error } = companyUpdateSchema.validate(req.body);
@@ -29,12 +32,12 @@ const validateCompanyUpdate = (req, res, next) => {
     } else {
         next();
     }
-}
+};
 
 
 router.get('/new', isLoggedIn, (req, res) => {
     res.render('companies/new');
-})
+});
 
 router.post('/', isLoggedIn, validateCompanyCreate, catchAsync(async (req, res, next) => {
     const company = new Company(req.body.company);
@@ -52,7 +55,7 @@ router.post('/', isLoggedIn, validateCompanyCreate, catchAsync(async (req, res, 
     req.session.currentCompanyId = company._id;
     req.flash('success', 'New company added successfully');
     res.redirect(`/companies/${company.id}`);
-}))
+}));
 
 router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const thisCompany = await Company.findById(req.params.id)
@@ -70,12 +73,12 @@ router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
         return res.redirect('/companies');
     }
     res.render('companies/show', { thisCompany })
-}))
+}));
 
 router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const thisCompany = await Company.findById(req.params.id);
     res.render('companies/edit', { thisCompany })
-}))
+}));
 
 router.put('/:id', isLoggedIn, validateCompanyUpdate, catchAsync(async (req, res) => {
     const { id } = req.params;
@@ -104,7 +107,7 @@ router.put('/:id', isLoggedIn, validateCompanyUpdate, catchAsync(async (req, res
     await logAction(req.user.id, 'UPDATE', 'Company', company._id, { updatedFields: changedFields });
     req.flash('success', 'Company details updated successfully');
     res.redirect(`/companies/${company._id}`)
-}))
+}));
 
 router.get('/:id/compUsers', isLoggedIn, catchAsync(async (req, res) => {
     const thisCompany = await Company.findById(req.params.id)
@@ -118,20 +121,132 @@ router.get('/:id/compUsers', isLoggedIn, catchAsync(async (req, res) => {
             }
         });
     res.render('companies/compUsers', { thisCompany })
-}))
+}));
 
-router.get('/companies/:id/compUsers/:id/update-role', isLoggedIn, catchAsync(async (req, res) => {
-    // const company = new Company(req.body.company);
-    // const thisUser = await User.findById(req.user.id);
-    // const role = new Role({ userId: thisUser.id, companyId: company.id, role: req.body.company.role });
-    // thisUser.companies.push(company);
-    // thisUser.roles.push(role);
-    // await company.save();
-    // await thisUser.save();
-    // await role.save();
-    // await logAction(req.user.id, 'UPDATE', 'Role', role._id, { companyName: company.name });
-    // res.redirect('companies/compUsers', { thisCompany })
-}))
+router.put('/:companyId/compUsers/:userId/update-role', isLoggedIn, catchAsync(async (req, res) => {
+    const { companyId, userId } = req.params;
+    const { role } = req.body;
+    const thisCompany = await Company.findById(companyId);
+    const existingRole = await Role.findOne({ userId, companyId });
+
+    if (!existingRole) {
+        req.flash('error', 'Role not found');
+        return res.redirect(`/companies/${companyId}/compUsers`);
+    }
+
+    // Check if the role is being changed from "Owner"
+    if (existingRole.role === 'Owner' && role !== 'Owner') {
+        if (thisCompany.owners.length === 1) {
+            req.flash('error', 'Cannot change role. This user is the only owner left. Assign another owner before changing this role.');
+            return res.redirect(`/companies/${companyId}/compUsers`);
+        }
+        thisCompany.owners = thisCompany.owners.filter(ownerId => ownerId.toString() !== userId);
+    }
+
+    // Check if the role is being changed to "Owner"
+    if (existingRole.role !== 'Owner' && role === 'Owner') {
+        thisCompany.owners.push(userId);
+    }
+
+    existingRole.role = role;
+    await existingRole.save();
+    await thisCompany.save();
+
+    await logAction(req.user.id, 'UPDATE', 'Role', existingRole._id, { companyName: thisCompany.name, user: userId, role: role });
+    req.flash('success', 'Role updated successfully');
+    res.redirect(`/companies/${companyId}/compUsers`);
+}));
+
+router.get('/:companyId/invite', isLoggedIn, catchAsync(async (req, res) => {
+    const thisCompany = await Company.findById(req.params.companyId);
+    if (!thisCompany) {
+        req.flash('error', 'Company not found');
+        return res.redirect('/companies');
+    }
+    res.render('companies/invite', { thisCompany });
+}));
+
+router.post('/:companyId/invite', isLoggedIn, catchAsync(async (req, res) => {
+    const { name, email, role } = req.body;
+    const { companyId } = req.params;
+    const company = await Company.findById(companyId);
+
+    // Generate a unique token
+    const token = crypto.randomBytes(20).toString('hex');
+
+    // Create a new invite
+    const invite = new Invite({ email, companyId, role, token });
+    await invite.save();
+
+    // Send the invite email
+    const transporter = nodemailer.createTransport({
+        host: 'fredcure.ca',
+        port: 465,
+        secure: true,
+        auth: {
+            user: 'fred@fredcure.ca',
+            pass: 'zm8q^._RZ)@B'
+        }
+    });
+
+    const mailOptions = {
+        from: 'fred@fredcure.ca',
+        to: email,
+        subject: `You have been invited to join ${company.name}`,
+        text: `You have been invited to join ${company.name}. Please click the following link to accept the invitation: localhost:3000/companies/invite/${token}`
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    req.flash('success', 'Invite sent successfully');
+    res.redirect(`/companies/${companyId}/compUsers`);
+}));
+
+router.get('/invite/:token', catchAsync(async (req, res) => {
+    const { token } = req.params;
+    const invite = await Invite.findOne({ token });
+
+    if (!invite) {
+        req.flash('error', 'Invalid or expired token');
+        return res.redirect('/');
+    }
+
+    res.render('companies/accept', { invite });
+}));
+
+router.post('/:token/accept', catchAsync(async (req, res) => {
+    const { token } = req.params;
+    const { username, email, password, firstName, lastName } = req.body;
+    const invite = await Invite.findOne({ token });
+
+    if (!invite) {
+        req.flash('error', 'Invalid or expired token');
+        return res.redirect('/');
+    }
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+        user = new User({ username, email, firstName, lastName });
+        await User.register(user, password);
+    }
+
+    const company = await Company.findById(invite.companyId);
+    const role = new Role({ userId: user._id, companyId: company._id, role: invite.role });
+
+    company.users.push(user);
+    user.companies.push(company);
+    user.roles.push(role);
+
+    await company.save();
+    await user.save();
+    await role.save();
+
+    await Invite.findByIdAndDelete(invite._id);
+
+    req.flash('success', 'You have successfully joined the company');
+    res.redirect('/users/login');
+}));
 
 router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
@@ -139,7 +254,7 @@ router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     await logAction(req.user.id, 'DELETE', 'Company', company._id, { companyName: company.name });
     req.flash('success', 'Company deleted successfully');
     res.redirect('/')
-}))
+}));
 
 
 

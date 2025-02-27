@@ -53,20 +53,20 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <form
-                                                            action="/companies/<%= thisCompany._id %>/users/<%= user._id %>/update-role"
+                                                            action="/companies/<%= thisCompany._id %>/compUsers/<%= user._id %>/update-role?_method=PUT"
                                                             method="POST">
                                                             <div class="mb-3">
                                                                 <label for="role" class="form-label">Select
                                                                     Role</label>
                                                                 <select class="form-control" id="role" name="role">
-                                                                    <option value="owner" <%=user.roles.some(r=> r.role
-                                                                        === 'owner') ? 'selected' : '' %>>Owner
+                                                                    <option value="Owner" <%=user.roles.some(r=> r.role
+                                                                        === 'Owner') ? 'selected' : '' %>>Owner
                                                                     </option>
-                                                                    <option value="admin" <%=user.roles.some(r=> r.role
-                                                                        === 'admin') ? 'selected' : '' %>>Admin
+                                                                    <option value="Admin" <%=user.roles.some(r=> r.role
+                                                                        === 'Admin') ? 'selected' : '' %>>Admin
                                                                     </option>
-                                                                    <option value="employee" <%=user.roles.some(r=>
-                                                                        r.role === 'employee') ? 'selected' : ''
+                                                                    <option value="Employee" <%=user.roles.some(r=>
+                                                                        r.role === 'Employee') ? 'selected' : ''
                                                                         %>>Employee
                                                                     </option>
                                                                 </select>
