@@ -157,6 +157,60 @@ router.put('/:companyId/compUsers/:userId/update-role', isLoggedIn, catchAsync(a
     res.redirect(`/companies/${companyId}/compUsers`);
 }));
 
+router.put('/:companyId/compUsers/:userId/remove', isLoggedIn, catchAsync(async (req, res) => {
+    const { companyId, userId } = req.params;
+
+    // Find the company
+    const thisCompany = await Company.findById(companyId);
+    if (!thisCompany) {
+        req.flash('error', 'Company not found');
+        return res.redirect(`/companies/${companyId}/compUsers`);
+    }
+
+    // Find the user
+    const user = await User.findById(userId);
+    if (!user) {
+        req.flash('error', 'User not found');
+        return res.redirect(`/companies/${companyId}/compUsers`);
+    }
+
+    // Check if the user is the only owner
+    if (thisCompany.owners.length === 1 && thisCompany.owners[0].toString() === userId) {
+        req.flash('error', 'Cannot remove user. This user is the only owner left. Assign another owner before removing this user.');
+        return res.redirect(`/companies/${companyId}/compUsers`);
+    }
+
+    // Find the role associated with the company and the user
+    const role = await Role.findOne({ userId, companyId });
+    if (!role) {
+        req.flash('error', 'Role not found');
+        return res.redirect(`/companies/${companyId}/compUsers`);
+    }
+
+    // Remove the user ID from the company users
+    thisCompany.users = thisCompany.users.filter(u => u.toString() !== userId);
+
+    // Remove the user ID from the company owners
+    thisCompany.owners = thisCompany.owners.filter(o => o.toString() !== userId);
+
+    // Remove the company ID from the user companies
+    user.companies = user.companies.filter(c => c.toString() !== companyId);
+
+    // Remove the role ID from the user
+    user.roles = user.roles.filter(r => r.toString() !== role._id.toString());
+
+    // Delete the role
+    await Role.findByIdAndDelete(role._id);
+
+    // Save the changes
+    await thisCompany.save();
+    await user.save();
+
+    await logAction(req.user.id, 'REMOVE', 'User', user._id, { companyName: thisCompany.name, user: userId });
+    req.flash('success', 'User removed from company successfully');
+    res.redirect(`/companies/${companyId}/compUsers`);
+}));
+
 router.get('/:companyId/invite', isLoggedIn, catchAsync(async (req, res) => {
     const thisCompany = await Company.findById(req.params.companyId);
     if (!thisCompany) {
@@ -170,6 +224,13 @@ router.post('/:companyId/invite', isLoggedIn, catchAsync(async (req, res) => {
     const { name, email, role } = req.body;
     const { companyId } = req.params;
     const company = await Company.findById(companyId);
+
+    // Check if a user with the same email is already one of the company's users
+    const existingUser = company.users.find(user => user.email === email);
+    if (existingUser) {
+        req.flash('error', 'A user with this email is already a member of the company.');
+        return res.redirect(`/companies/${companyId}/compUsers`);
+    }
 
     // Generate a unique token
     const token = crypto.randomBytes(20).toString('hex');
@@ -185,7 +246,7 @@ router.post('/:companyId/invite', isLoggedIn, catchAsync(async (req, res) => {
         secure: true,
         auth: {
             user: 'fred@fredcure.ca',
-            pass: 'zm8q^._RZ)@B'
+            pass: 'xxxxxx'
         }
     });
 
@@ -211,6 +272,11 @@ router.get('/invite/:token', catchAsync(async (req, res) => {
         return res.redirect('/');
     }
 
+    let currentUser = null;
+    if (req.isAuthenticated()) {
+        currentUser = req.user;
+    }
+
     res.render('companies/accept', { invite });
 }));
 
@@ -232,6 +298,14 @@ router.post('/:token/accept', catchAsync(async (req, res) => {
     }
 
     const company = await Company.findById(invite.companyId);
+
+    // Check if the user is already a member of the company
+    const existingUser = company.users.find(u => u.email === email);
+    if (existingUser) {
+        req.flash('error', 'You are already a member of this company.');
+        return res.redirect('/users/login');
+    }
+
     const role = new Role({ userId: user._id, companyId: company._id, role: invite.role });
 
     company.users.push(user);

@@ -77,7 +77,7 @@
                                                         </form>
                                                         <hr>
                                                         <form
-                                                            action="/companies/<%= thisCompany._id %>/users/<%= user._id %>/remove"
+                                                            action="/companies/<%= thisCompany._id %>/compUsers/<%= user._id %>/remove?_method=PUT"
                                                             method="POST">
                                                             <button type="submit" class="btn btn-outline-danger">Remove
                                                                 User from Company</button>
