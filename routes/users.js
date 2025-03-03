@@ -98,6 +98,14 @@ router.get('/logout', (req, res, next) => {
     });
 });
 
+router.post('/logoutInvite', (req, res, next) => {
+    const { token } = req.body;
+    req.logout(function (err) {
+        if (err) { return next(err); }
+        req.flash('success', 'You have been logged out');
+        res.redirect(`/companies/invite/${token}`);
+    });
+});
 
 router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const thisUser = await User.findById(req.params.id).populate('companies').populate('companies.users').populate('roles');

@@ -223,7 +223,7 @@ router.get('/:companyId/invite', isLoggedIn, catchAsync(async (req, res) => {
 router.post('/:companyId/invite', isLoggedIn, catchAsync(async (req, res) => {
     const { name, email, role } = req.body;
     const { companyId } = req.params;
-    const company = await Company.findById(companyId);
+    const company = await Company.findById(companyId).populate('users');
 
     // Check if a user with the same email is already one of the company's users
     const existingUser = company.users.find(user => user.email === email);
@@ -246,7 +246,7 @@ router.post('/:companyId/invite', isLoggedIn, catchAsync(async (req, res) => {
         secure: true,
         auth: {
             user: 'fred@fredcure.ca',
-            pass: 'xxxxxx'
+            pass: '$SlLn_g$pe!V'
         }
     });
 
@@ -290,20 +290,38 @@ router.post('/:token/accept', catchAsync(async (req, res) => {
         return res.redirect('/');
     }
 
-    let user = await User.findOne({ email });
-
-    if (!user) {
-        user = new User({ username, email, firstName, lastName });
-        await User.register(user, password);
-    }
-
     const company = await Company.findById(invite.companyId);
 
-    // Check if the user is already a member of the company
-    const existingUser = company.users.find(u => u.email === email);
-    if (existingUser) {
-        req.flash('error', 'You are already a member of this company.');
-        return res.redirect('/users/login');
+    // Check if the username already exists
+    let user = await User.findOne({ username });
+
+    if (user) {
+        // If the username exists, ensure the credentials match
+        const authenticatedUser = await User.authenticate()(username, password);
+        if (!authenticatedUser.user || authenticatedUser.user.email !== email) {
+            req.flash('error', 'Username unavailable. If you allready have an account, please provide the company management with the email associated with your account.');
+            return res.redirect(`/invite/${token}`);
+        }
+        user = authenticatedUser.user;
+    } else {
+        // Check if the email already exists
+        user = await User.findOne({ email });
+        if (user) {
+            req.flash('error', 'The email is already associated with another account. Please provide the correct email to the company management to be invited with your associated email.');
+            return res.redirect(`/invite/${token}`);
+        }
+
+        // Check if the user is already a member of the company
+        const existingUser = company.users.find(u => u.email === email);
+        if (existingUser) {
+            await Invite.findByIdAndDelete(invite._id);
+            req.flash('error', 'You are already a member of this company.');
+            return res.redirect('/users/login');
+        };
+
+        // Register the new user
+        user = new User({ username, email, firstName, lastName });
+        await User.register(user, password);
     }
 
     const role = new Role({ userId: user._id, companyId: company._id, role: invite.role });

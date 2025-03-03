@@ -69,11 +69,10 @@
                         required><br>
 
                     <label for="role" class="form-label">Role:</label>
-                    <select class="form-select" id="role" name="company[role]" required>
-                        <option value="Owner">Owner</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Employee">Employee</option>
-                    </select><br>
+                    <p>By default as the creator of this company you will be assigned the role of 'Owner'. It can be
+                        changed later in the User Management page after another user has been assigned the role of
+                        owner.</p>
+                    <input type="hidden" id="role" name="company[role]" value="Owner"><br>
 
                     <label for="invoiceNumberPrefix" class="form-label">Invoice Number Prefix:</label>
                     <input type="text" class="form-control" id="invoiceNumberPrefix" name="company[invoiceNumberPrefix]"

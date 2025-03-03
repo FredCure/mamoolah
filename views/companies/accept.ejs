@@ -8,23 +8,29 @@
             <div class="card-body text-secondary">
                 <% if (currentUser) { %>
                     <% if (currentUser.email===invite.email) { %>
-                        <p>You are logged in as <%= currentUser.email %>. Click the button below to accept the
+                        <p>You are allready logged in as <%= currentUser.email %>. Click the button below to accept the
                                 invitation.</p>
-                        <form action="/invite/<%= invite.token %>/accept" method="POST">
+                        <form action="/companies/<%= invite.token %>/accept" method="POST">
                             <button type="submit" class="btn btn-outline-info-subtle bg-info-subtle">Accept
                                 Invitation</button>
                         </form>
                         <% } else { %>
                             <p>You are logged in as <%= currentUser.email %>. To accept the invitation for <%=
                                         invite.email %>, please log out first.</p>
-                            <form action="/logout" method="POST" style="display:inline">
+                            <form action="/users/logoutInvite" method="POST" style="display:inline">
+                                <input type="hidden" name="token" value="<%= invite.token %>">
                                 <button type="submit" class="btn btn-outline-danger">Log Out</button>
                             </form>
                             <a href="/" class="btn btn-outline-secondary">Cancel</a>
                             <% } %>
                                 <% } else { %>
                                     <p>Please log in or register to accept the invitation.</p>
-                                    <form action="/invite/<%= invite.token %>/accept" method="POST">
+                                    <form action="/companies/<%= invite.token %>/accept" method="POST">
+                                        <div class="mb-3">
+                                            <label for="username" class="form-label">Username</label>
+                                            <input type="text" class="form-control" id="username" name="username"
+                                                required>
+                                        </div>
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Email</label>
                                             <input type="email" class="form-control" id="email" name="email"
