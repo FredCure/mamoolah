@@ -4,6 +4,7 @@ const Account = require('../models/accounts');
 const Client = require('../models/clients');
 const Invoice = require('../models/invoices');
 const Company = require('../models/companies');
+const User = require('../models/users');
 const { accountSchema } = require('../schemas.js');
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
@@ -28,9 +29,12 @@ router.get('/', isLoggedIn, catchAsync(async (req, res) => {
     res.render('accounts/index', { accounts })
 }))
 
-router.get('/new', isLoggedIn, (req, res) => {
-    res.render('accounts/new');
-})
+router.get('/new', catchAsync(async (req, res) => {
+    const companyId = res.locals.currentCompany._id; // Assuming the company ID is stored in the user's session
+    const company = await Company.findById(companyId).populate('users');
+    console.log(company);
+    res.render('accounts/new', { users: company.users });
+}));
 
 router.post('/', isLoggedIn, validateAccount, catchAsync(async (req, res, next) => {
     const account = new Account(req.body.account);

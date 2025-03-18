@@ -24,6 +24,7 @@ const usersRoutes = require('./routes/users');
 const companiesRoutes = require('./routes/companies');
 const accountsRoutes = require('./routes/accounts');
 const clientsRoutes = require('./routes/clients');
+const suppliersRoutes = require('./routes/suppliers');
 const invoicesRoutes = require('./routes/invoices');
 const transactionsRoutes = require('./routes/transactions');
 
@@ -96,6 +97,7 @@ app.use('/users', usersRoutes);
 app.use('/companies', companiesRoutes);
 app.use('/accounts', accountsRoutes);
 app.use('/clients', clientsRoutes);
+app.use('/suppliers', suppliersRoutes);
 app.use('/invoices', invoicesRoutes);
 app.use('/transactions', transactionsRoutes);
 

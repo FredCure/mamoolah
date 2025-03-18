@@ -95,6 +95,7 @@ module.exports.companyUpdateSchema = Joi.object({
 module.exports.accountSchema = Joi.object({
     account: Joi.object({
         name: Joi.string().required(),
+        accountUser: Joi.string().optional().allow(null, ''), // Optional user ID
         type: Joi.string().valid('asset', 'liability', 'equity', 'income', 'expense', 'cogs').required(),
         subType: Joi.string().valid(
             'checking', 'savings', 'cash',
@@ -165,6 +166,25 @@ module.exports.clientSchema = Joi.object({
         shipState: Joi.string().allow("", null),
         shipCode: Joi.string().allow("", null),
         shipCountry: Joi.string().allow("", null),
+    }).required()
+});
+
+module.exports.supplierSchema = Joi.object({
+    supplier: Joi.object({
+        name: Joi.string().required(),
+        contact: Joi.string().allow("", null),
+        email: Joi.string().allow("", null),
+        website: Joi.string().allow("", null),
+        phone: Joi.string().allow("", null),
+        cell: Joi.string().allow("", null),
+        fax: Joi.string().allow("", null),
+        notes: Joi.string().allow("", null),
+        chequeName: Joi.string().allow("", null),
+        addressStreet: Joi.string().allow("", null),
+        addressCity: Joi.string().allow("", null),
+        addressState: Joi.string().allow("", null),
+        addressCode: Joi.string().allow("", null),
+        addressCountry: Joi.string().allow("", null),
     }).required()
 });
 

@@ -74,7 +74,7 @@ const Account = mongoose.model('Account', AccountSchema);
 const mongoURI = 'mongodb://localhost:27017/mamoolah';
 
 // Dummy Company ID (replace with an actual Company ID if available)
-const companyId = new mongoose.Types.ObjectId('67b4f13dd5a60ff39cb31a2e');
+const companyId = new mongoose.Types.ObjectId('67c6108c02ec03f36bbba021');
 
 // List of accounts for the full Chart of Accounts (COA)
 const accounts = [

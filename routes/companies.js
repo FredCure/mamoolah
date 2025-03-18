@@ -246,7 +246,7 @@ router.post('/:companyId/invite', isLoggedIn, catchAsync(async (req, res) => {
         secure: true,
         auth: {
             user: 'fred@fredcure.ca',
-            pass: 'xxxxxxxxxxx'
+            pass: 'xxxxxxxxxxxxxxxxxxxx'
         }
     });
 

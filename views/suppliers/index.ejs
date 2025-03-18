@@ -1,0 +1,31 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-6 offset-3">
+        <h1>All Suppliers
+        </h1>
+        <div class="card" mb-3>
+            <div class="row">
+
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/suppliers/new">Add new supplier</a></h5>
+                        <p class="card-text">
+                        <ul>
+                            <% for (let supplier of suppliers){%>
+                                <% if (supplier.companyId && currentCompany &&
+                                    supplier.companyId.toString()===currentCompany._id.toString()) { %>
+                                    <li>
+                                        <a href="../suppliers/<%= supplier._id %>">
+                                            <%= supplier.name %><br>
+
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                        <% }%>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -31,6 +31,21 @@
                         </div>
                     </div>
                     <div class="mb-3">
+                        <label for="accountUser" class="form-label">Account User</label>
+                        <select class="form-control" id="accountUser" name="account[accountUser]">
+                            <option value="" selected>None</option>
+                            <% users.forEach(user=> { %>
+                                <option value="<%= user._id %>">
+                                    <%= user.firstName %>
+                                        <%= user.lastName %> (<%= user.email %>)
+                                </option>
+                                <% }) %>
+                        </select>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
                         <label for="Thank" class="form-label">Account Sub-Type</label>
                         <select class="form-control" id="subType" name="account[subType]" required>
                             <option value="" disabled selected>Select account sub-type</option>

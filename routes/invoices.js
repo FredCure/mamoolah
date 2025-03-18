@@ -4,7 +4,8 @@ const User = require('../models/users');
 const Client = require('../models/clients');
 const Company = require('../models/companies');
 const Invoice = require('../models/invoices');
-const { invoiceSchema } = require('../schemas.js');
+const Transaction = require('../models/transactions');
+const { invoiceSchema, transactionSchema } = require('../schemas.js');
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 

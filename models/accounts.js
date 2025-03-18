@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const AccountSchema = new Schema({
     companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true },
     name: { type: String, required: true },
+    accountUser: { type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true },
     type: { type: String, enum: ['asset', 'liability', 'equity', 'income', 'expense', 'cogs'], required: true },
     subType: {
         type: String,

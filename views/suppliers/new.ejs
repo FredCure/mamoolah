@@ -1,0 +1,71 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-6 offset-3">
+        <h1 class="mt-3 mb-3">
+            New Supplier
+        </h1>
+        <div class="card border-secondary mb-3">
+            <div class="card-body text-secondary">
+
+                <form action="/suppliers" method="POST" novalidate class="validated-form">
+                    <div class="mb-3">
+                        <label for="supplierName" class="form-label">Supplier Name</label>
+                        <input type="text" class="form-control" id="supplierName" name="supplier[name]" required>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contact" class="form-label">Contact Name</label>
+                        <input type="text" class="form-control" id="contact" name="supplier[contact]">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="supplier[email]">
+                    </div>
+                    <div class="mb-3">
+                        <label for="website" class="form-label">Website</label>
+                        <input type="text" class="form-control" id="website" name="supplier[website]">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="phone" name="supplier[phone]">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cell" class="form-label">Cell Number</label>
+                        <input type="text" class="form-control" id="cell" name="supplier[cell]">
+                    </div>
+                    <div class="mb-3">
+                        <label for="fax" class="form-label">Fax Number</label>
+                        <input type="text" class="form-control" id="fax" name="supplier[fax]">
+                    </div>
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Notes</label>
+                        <input type="text" class="form-control" id="notes" name="supplier[notes]">
+                    </div>
+                    <div class="mb-3">
+                        <label for="chequeName" class="form-label">Name on cheques</label>
+                        <input type="text" class="form-control" id="chequeName" name="supplier[chequeName]">
+                    </div>
+                    <div class="mb-3">
+                        <h4>Address</h4>
+                        <label for="addressStreet" class="form-label">Street Address</label>
+                        <input type="text" class="form-control" id="addressStreet" name="supplier[addressStreet]">
+                        <label for="addressCity" class="form-label">City</label>
+                        <input type="text" class="form-control" id="addressCity" name="supplier[addressCity]">
+                        <label for="addressState" class="form-label">State / Province</label>
+                        <input type="text" class="form-control" id="addressState" name="supplier[addressState]">
+                        <label for="addressCode" class="form-label">Zip / Postal Code</label>
+                        <input type="text" class="form-control" id="addressCode" name="supplier[addressCode]">
+                        <label for="addressCountry" class="form-label">Country</label>
+                        <input type="text" class="form-control" id="addressCountry" name="supplier[addressCountry]">
+                    </div>
+                    <button class="btn btn-outline-info-subtle bg-info-subtle">Save new supplier</button>
+                </form>
+
+            </div>
+            <div class="card-footer">
+                <a href="/suppliers">Cancel</a>
+            </div>
+        </div>
+    </div>
