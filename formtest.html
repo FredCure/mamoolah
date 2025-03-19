@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Form</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Accounting Transaction Form</h2>
+    <form id="transactionForm">
+        <label for="transactionType">Transaction Type:</label>
+        <select id="transactionType" name="transactionType" onchange="toggleFields()">
+            <option value="">Select Type</option>
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+            <option value="transfer">Transfer</option>
+            <option value="invoicePayment">Invoice Payment</option>
+        </select>
+
+        <br><br>
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+
+        <br><br>
+
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" step="0.01" required>
+
+        <br><br>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description">
+
+        <br><br>
+
+        <div id="expenseFields" class="hidden">
+            <label for="expenseCategory">Expense Category:</label>
+            <input type="text" id="expenseCategory" name="expenseCategory">
+        </div>
+
+        <div id="incomeFields" class="hidden">
+            <label for="incomeSource">Income Source:</label>
+            <input type="text" id="incomeSource" name="incomeSource">
+        </div>
+
+        <div id="transferFields" class="hidden">
+            <label for="fromAccount">From Account:</label>
+            <input type="text" id="fromAccount" name="fromAccount">
+            <br><br>
+            <label for="toAccount">To Account:</label>
+            <input type="text" id="toAccount" name="toAccount">
+        </div>
+
+        <div id="invoicePaymentFields" class="hidden">
+            <label for="invoiceNumber">Invoice Number:</label>
+            <input type="text" id="invoiceNumber" name="invoiceNumber">
+        </div>
+
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function toggleFields() {
+            let type = document.getElementById("transactionType").value;
+            document.getElementById("expenseFields").classList.toggle("hidden", type !== "expense");
+            document.getElementById("incomeFields").classList.toggle("hidden", type !== "income");
+            document.getElementById("transferFields").classList.toggle("hidden", type !== "transfer");
+            document.getElementById("invoicePaymentFields").classList.toggle("hidden", type !== "invoicePayment");
+        }
+    </script>
+</body>
+
+</html>

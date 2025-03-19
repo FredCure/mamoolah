@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const AccountSchema = new Schema({
     companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true },
     name: { type: String, required: true },
-    accountUser: { type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true },
+    accountUser: { type: mongoose.Schema.Types.ObjectId, ref: 'User', unique: true, default: null },
     type: { type: String, enum: ['asset', 'liability', 'equity', 'income', 'expense', 'cogs'], required: true },
     subType: {
         type: String,
@@ -57,6 +57,7 @@ const AccountSchema = new Schema({
     // parentAccountId: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' },
     balance: { type: Number, default: 0, required: true },
     currency: { type: String },
+    isPrimary: { type: String, enum: ['true'], default: null },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Account', AccountSchema);

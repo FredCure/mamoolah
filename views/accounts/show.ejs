@@ -18,6 +18,12 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td><strong>Primary Account :</strong></td>
+                                <td colspan="2">
+                                    <%= thisAccount.isPrimary ? 'Yes' : 'No' %>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td><strong>Balance :</strong></td>
                                 <td colspan="2">
                                     <%= thisAccount.balance %>
@@ -30,7 +36,14 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><strong>Account Type :</strong></td>
+                                <td><strong>Account User :</strong></td>
+                                <td colspan="2">
+                                    <%= thisAccount.accountUser ? thisAccount.accountUser.firstName + ' ' +
+                                        thisAccount.accountUser.lastName : 'None' %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Account Sub Type :</strong></td>
                                 <td colspan="2">
                                     <%= thisAccount.subType %>
                                 </td>

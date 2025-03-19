@@ -1,0 +1,31 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="col-6 offset-3">
+        <h1>All Transactions
+        </h1>
+        <div class="card" mb-3>
+            <div class="row">
+
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/transactions/new">Add new transaction</a></h5>
+                        <p class="card-text">
+                        <ul>
+                            <% for (let transaction of transactions){%>
+                                <% if (transaction.companyId && currentCompany &&
+                                    transaction.companyId.toString()===currentCompany._id.toString()) { %>
+                                    <li>
+                                        <a href="../transactions/<%= transaction._id %>">
+                                            <%= transaction.transactionDate %><br>
+
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                        <% }%>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

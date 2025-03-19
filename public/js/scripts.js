@@ -8,3 +8,11 @@ function sortTable(columnIndex) {
     });
     sortedRows.forEach(row => table.appendChild(row));
 }
+
+function toggleFields() {
+    let type = document.getElementById("transactionType").value;
+    document.getElementById("expenseFields").classList.toggle("hidden", type !== "expense");
+    document.getElementById("incomeFields").classList.toggle("hidden", type !== "income");
+    document.getElementById("transferFields").classList.toggle("hidden", type !== "transfer");
+    document.getElementById("invoicePaymentFields").classList.toggle("hidden", type !== "invoicePayment");
+}

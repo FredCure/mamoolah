@@ -143,7 +143,7 @@ module.exports.accountSchema = Joi.object({
         description: Joi.string().allow("", null),
         balance: Joi.number().default(0).required(),
         currency: Joi.string().allow("", null),
-        setMainAccount: Joi.boolean().optional()
+        isPrimary: Joi.string().valid('true').optional().allow(null, '')
     }).required()
 });
 
@@ -219,16 +219,19 @@ module.exports.invoiceSchema = Joi.object({
 
 module.exports.transactionSchema = Joi.object({
     transaction: Joi.object({
-        bankTransactionId: Joi.string().required(),
-        transactionDate: Joi.date().required(),
-        type: Joi.string().valid('deposit', 'withdrawal').required(),
-        accountId: Joi.string().required(),
-        amount: Joi.number().min(0).required(),
-        currency: Joi.string().required(),
-        entityId: Joi.string().optional(),
-        entityType: Joi.string().valid('Invoice', 'Expense', 'Revenue', 'Transfer').optional(),
-        paymentMethod: Joi.string().valid('bank_transfer', 'credit_card', 'paypal', 'cash').required(),
-        status: Joi.string().valid('pending', 'completed', 'failed').required(),
-        processedBy: Joi.string().required(),
+        transactionDate: Joi.date().required(), // Must be a valid date
+        invoiceId: Joi.string().optional().allow(null, ''), // Optional ObjectId
+        supplierId: Joi.string().optional().allow(null, ''), // Optional ObjectId
+        entries: Joi.array().items(
+            Joi.object({
+                accountId: Joi.string().required(), // Must be a valid ObjectId
+                type: Joi.string().valid('debit', 'credit').required(), // Must be 'debit' or 'credit'
+                amount: Joi.number().positive().required() // Must be a positive number
+            })
+        ).min(1).required(), // At least one entry is required
+        currency: Joi.string().required().default('CAD'), // Must be a string, default is 'CAD'
+        processedBy: Joi.string().required(), // Must be a valid ObjectId
+        status: Joi.string().valid('pending', 'paid', 'partial').required().default('pending'), // Must be one of the allowed statuses
+        notes: Joi.string().optional().allow(null, ''), // Optional string
     }).required()
 });

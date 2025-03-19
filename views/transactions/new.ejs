@@ -7,74 +7,55 @@
         <div class="card border-secondary mb-3">
             <div class="card-body text-secondary">
 
-                <form action="/transactions" method="POST" novalidate class="validated-form">
+                <form action="/transactions" method="POST" novalidate class="validated-form" id="transactionForm">
                     <div class="mb-3">
-                        <label for="clientName" class="form-label">Client Name</label>
-                        <input type="text" class="form-control" id="clientName" name="client[clientName]" required>
-                        <div class="valid-feedback">
-                            Thank you!
-                        </div>
+                        <label for="transactionType" class="form-label">Transaction Type:</label>
+                        <select class="form-control" id="transactionType" name="transactionType"
+                            onchange="toggleFields()">
+                            <option value="">Select Type</option>
+                            <option value="expense">Expense</option>
+                            <option value="income">Income</option>
+                            <option value="transfer">Transfer</option>
+                            <option value="invoicePayment">Invoice Payment</option>
+                        </select>
                     </div>
                     <div class="mb-3">
-                        <label for="firstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="firstName" name="client[firstName]">
+                        <label for="date" class="form-label">Date:</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
                     </div>
                     <div class="mb-3">
-                        <label for="lastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" name="client[lastName]">
+                        <label for="amount" class="form-label">Amount:</label>
+                        <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
                     </div>
                     <div class="mb-3">
-                        <label for="phone" class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" id="phone" name="client[phone]">
+                        <label for="description" class="form-label">Description:</label>
+                        <input type="text" class="form-control" id="description" name="description">
                     </div>
-                    <div class="mb-3">
-                        <label for="cell" class="form-label">Mobile Number</label>
-                        <input type="text" class="form-control" id="cell" name="client[cell]">
+                    <div id="expenseFields" class="mb-3 hidden">
+                        <label for="expenseCategory" class="form-label">Expense Category:</label>
+                        <input type="text" class="form-control" id="expenseCategory" name="expenseCategory">
                     </div>
-                    <div class="mb-3">
-                        <label for="fax" class="form-label">Fax Number</label>
-                        <input type="text" class="form-control" id="fax" name="client[fax]">
+                    <div id="incomeFields" class="mb-3 hidden">
+                        <label for="incomeSource" class="form-label">Income Source:</label>
+                        <input type="text" class="form-control" id="incomeSource" name="incomeSource">
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="client[email]">
+                    <div id="transferFields" class="mb-3 hidden">
+                        <label for="fromAccount" class="form-label">From Account:</label>
+                        <input type="text" class="form-control" id="fromAccount" name="fromAccount">
+                        <br><br>
+                        <label for="toAccount" class="form-label">To Account:</label>
+                        <input type="text" class="form-control" id="toAccount" name="toAccount">
                     </div>
-                    <div class="mb-3">
-                        <h4>Address</h4>
-                        <label for="invoiceStreet" class="form-label">Street Address</label>
-                        <input type="text" class="form-control" id="invoiceStreet" name="client[invoiceStreet]">
-                        <label for="invoiceCity" class="form-label">City</label>
-                        <input type="text" class="form-control" id="invoiceCity" name="client[invoiceCity]">
-                        <label for="invoiceState" class="form-label">State / Province</label>
-                        <input type="text" class="form-control" id="invoiceState" name="client[invoiceState]">
-                        <label for="invoiceCode" class="form-label">Zip / Postal Code</label>
-                        <input type="text" class="form-control" id="invoiceCode" name="client[invoiceCode]">
-                        <label for="invoiceCountry" class="form-label">Country</label>
-                        <input type="text" class="form-control" id="invoiceCountry" name="client[invoiceCountry]">
+                    <div id="invoicePaymentFields" class="mb-3 hidden">
+                        <label for="invoiceNumber" class="form-label">Invoice Number:</label>
+                        <input type="text" class="form-control" id="invoiceNumber" name="invoiceNumber">
                     </div>
-                    <div class="mb-3">
-                        <h4>Shipping Address</h4>
-                        <label for="shipStreet" class="form-label">Street Address</label>
-                        <input type="text" class="form-control" id="shipStreet" name="client[shipStreet]">
-                        <label for="shipCity" class="form-label">City</label>
-                        <input type="text" class="form-control" id="shipCity" name="client[shipCity]">
-                        <label for="shipState" class="form-label">State / Province</label>
-                        <input type="text" class="form-control" id="shipState" name="client[shipState]">
-                        <label for="shipCode" class="form-label">Zip / Postal Code</label>
-                        <input type="text" class="form-control" id="shipCode" name="client[shipCode]">
-                        <label for="shipCountry" class="form-label">Country</label>
-                        <input type="text" class="form-control" id="shipCountry" name="client[shipCountry]">
-                    </div>
-                    <!-- <div class="mb-3">
-                        <label for="price" class="form-label">Price</label>
-                        <input type="number" class="form-control" id="price" name="client[price]" required>
-                    </div> -->
-                    <button class="btn btn-outline-info-subtle bg-info-subtle">Save new client</button>
+                    <button class="btn btn-outline-info-subtle bg-info-subtle">Save new transaction</button>
                 </form>
 
             </div>
             <div class="card-footer">
-                <a href="/clients">Cancel</a>
+                <a href="/transactions">Cancel</a>
             </div>
         </div>
     </div>

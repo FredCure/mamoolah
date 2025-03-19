@@ -23,6 +23,11 @@
                         </div>
                     </div>
                     <div class="mb-3">
+                        <label for="isPrimary" class="form-label">Primary Account</label>
+                        <input type="checkbox" class="form-check-input" id="isPrimary" name="account[isPrimary]"
+                            value="true" <%=thisAccount.isPrimary==='true' ? 'checked' : '' %>>
+                    </div>
+                    <div class="mb-3">
                         <label for="Thank" class="form-label">Account Type</label>
                         <select class="form-control" id="type" name="account[type]" required>
                             <option value="" disabled>Select account type</option>
@@ -35,6 +40,22 @@
                             </option>
                             <option value="cogs" <%=thisAccount.type==='cogs' ? 'selected' : '' %>>Cost of Goods Sold
                                 (COGS)</option>
+                        </select>
+                        <div class="valid-feedback">
+                            Thank you!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="accountUser" class="form-label">Account User</label>
+                        <select class="form-control" id="accountUser" name="account[accountUser]">
+                            <option value="" <%=thisAccount.accountUser===null ? 'selected' : '' %>>None</option>
+                            <% users.forEach(user=> { %>
+                                <option value="<%= user._id %>" <%=thisAccount.accountUser &&
+                                    thisAccount.accountUser.toString()===user._id.toString() ? 'selected' : '' %>>
+                                    <%= user.firstName %>
+                                        <%= user.lastName %> (<%= user.email %>)
+                                </option>
+                                <% }) %>
                         </select>
                         <div class="valid-feedback">
                             Thank you!

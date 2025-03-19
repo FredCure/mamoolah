@@ -32,11 +32,14 @@ router.get('/', isLoggedIn, catchAsync(async (req, res) => {
 router.get('/new', catchAsync(async (req, res) => {
     const companyId = res.locals.currentCompany._id; // Assuming the company ID is stored in the user's session
     const company = await Company.findById(companyId).populate('users');
-    console.log(company);
     res.render('accounts/new', { users: company.users });
 }));
 
 router.post('/', isLoggedIn, validateAccount, catchAsync(async (req, res, next) => {
+    // Convert empty string to null for accountUser
+    if (req.body.account.accountUser === '') {
+        req.body.account.accountUser = null;
+    };
     const account = new Account(req.body.account);
     account.createdAt = Date.now();
     account.companyId = res.locals.currentCompany._id;
@@ -47,7 +50,7 @@ router.post('/', isLoggedIn, validateAccount, catchAsync(async (req, res, next) 
 }))
 
 router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
-    const thisAccount = await Account.findById(req.params.id).populate('companyId');
+    const thisAccount = await Account.findById(req.params.id).populate('companyId').populate('accountUser');
     console.log(thisAccount);
     if (!thisAccount) {
         req.flash('error', 'Account not found');
@@ -58,11 +61,21 @@ router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
 
 router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const thisAccount = await Account.findById(req.params.id);
-    res.render('accounts/edit', { thisAccount })
+    const companyId = res.locals.currentCompany._id; // Assuming the company ID is stored in the user's session
+    const company = await Company.findById(companyId).populate('users');
+    res.render('accounts/edit', { thisAccount, users: company.users })
 }))
 
 router.put('/:id', isLoggedIn, validateAccount, catchAsync(async (req, res) => {
+    // Convert empty string to null for accountUser
+    if (req.body.account.accountUser === '') {
+        req.body.account.accountUser = null;
+    };
+
     const { id } = req.params;
+
+    if (req.body.account.isPrimary !== 'true') req.body.account.isPrimary = null;
+
     req.body.account.updatedAt = Date.now();
 
     const originalAccount = await Account.findById(id);
