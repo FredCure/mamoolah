@@ -13,10 +13,25 @@
                         <ul>
                             <% for (let account of accounts){%>
                                 <% if (account.companyId && currentCompany &&
-                                    account.companyId.toString()===currentCompany._id.toString()) { %>
+                                    account.companyId.toString()===currentCompany._id.toString() &&
+                                    account.isPrimary==="true" ) { %>
                                     <li>
                                         <a href="../accounts/<%= account._id %>">
-                                            <%= account.name %><br>
+                                            <%= account.code %> - <%= account.name %><br>
+
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                        <% }%>
+                        </ul>
+                        <ul>
+                            <% for (let account of accounts){%>
+                                <% if (account.companyId && currentCompany &&
+                                    account.companyId.toString()===currentCompany._id.toString() &&
+                                    account.isPrimary===null ) { %>
+                                    <li>
+                                        <a href="../accounts/<%= account._id %>">
+                                            <%= account.code %> - <%= account.name %><br>
 
                                         </a>
                                     </li>

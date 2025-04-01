@@ -18,6 +18,18 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td><strong>Account Type :</strong></td>
+                                <td colspan="2">
+                                    <%= thisSupplier.accountType.code %> - <%= thisSupplier.accountType.name %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Applicable Taxes :</strong></td>
+                                <td colspan="2">
+                                    <%= thisSupplier.taxes %>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td><strong>Email :</strong></td>
                                 <td colspan="2">
                                     <%= thisSupplier.email %>

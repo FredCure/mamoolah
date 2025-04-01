@@ -156,6 +156,9 @@ module.exports.clientSchema = Joi.object({
         cell: Joi.string().allow("", null),
         fax: Joi.string().allow("", null),
         email: Joi.string().allow("", null),
+        taxes: Joi.string().valid('null', 'exempt', 'gst', 'gstpst', 'pst', 'hst').required(),
+        terms: Joi.number().required(),
+        salesRep: Joi.string().optional().allow(null, ''), // Optional user ID
         invoiceStreet: Joi.string().allow("", null),
         invoiceCity: Joi.string().allow("", null),
         invoiceState: Joi.string().allow("", null),
@@ -172,6 +175,8 @@ module.exports.clientSchema = Joi.object({
 module.exports.supplierSchema = Joi.object({
     supplier: Joi.object({
         name: Joi.string().required(),
+        accountType: Joi.string().required(),
+        taxes: Joi.string().valid('null', 'exempt', 'gst', 'gstpst', 'pst', 'hst').required(),
         contact: Joi.string().allow("", null),
         email: Joi.string().allow("", null),
         website: Joi.string().allow("", null),
@@ -219,19 +224,18 @@ module.exports.invoiceSchema = Joi.object({
 
 module.exports.transactionSchema = Joi.object({
     transaction: Joi.object({
+        origin: Joi.string().required(),
+        account: Joi.string().allow(null, ''),
+        taxes: Joi.string().valid('', 'null', 'exempt', 'gst', 'gstpst', 'pst', 'hst'),
+        crAccount: Joi.string().allow(null, ''),
+        crTaxes: Joi.string().valid('', 'null', 'exempt', 'gst', 'gstpst', 'pst', 'hst'),
+        transactionType: Joi.string().valid('purchase', 'receivePayment').required(),
+        amount: Joi.number().required(),
         transactionDate: Joi.date().required(), // Must be a valid date
         invoiceId: Joi.string().optional().allow(null, ''), // Optional ObjectId
         supplierId: Joi.string().optional().allow(null, ''), // Optional ObjectId
-        entries: Joi.array().items(
-            Joi.object({
-                accountId: Joi.string().required(), // Must be a valid ObjectId
-                type: Joi.string().valid('debit', 'credit').required(), // Must be 'debit' or 'credit'
-                amount: Joi.number().positive().required() // Must be a positive number
-            })
-        ).min(1).required(), // At least one entry is required
+        crSupplierId: Joi.string().optional().allow(null, ''), // Optional ObjectId
         currency: Joi.string().required().default('CAD'), // Must be a string, default is 'CAD'
-        processedBy: Joi.string().required(), // Must be a valid ObjectId
-        status: Joi.string().valid('pending', 'paid', 'partial').required().default('pending'), // Must be one of the allowed statuses
         notes: Joi.string().optional().allow(null, ''), // Optional string
     }).required()
 });

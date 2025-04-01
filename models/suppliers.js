@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 
 const SupplierSchema = new Schema({
     companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true },
+    accountType: { type: mongoose.Schema.Types.ObjectId, ref: 'Account', required: true },
+    taxes: { type: String, enum: ['null', 'exempt', 'gst', 'gstpst', 'pst', 'hst'], required: true, default: 'gstpst' },
     name: { type: String, required: true },
     contact: { type: String },
     email: { type: String },

@@ -1,6 +1,7 @@
 const express = require('express');
 const { isLoggedIn, logAction } = require('../middleware');
 const Supplier = require('../models/suppliers');
+const Account = require('../models/accounts');
 const { supplierSchema } = require('../schemas.js');
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
@@ -25,9 +26,10 @@ router.get('/', isLoggedIn, catchAsync(async (req, res) => {
     res.render('suppliers/index', { suppliers })
 }))
 
-router.get('/new', isLoggedIn, (req, res) => {
-    res.render('suppliers/new');
-})
+router.get('/new', isLoggedIn, catchAsync(async (req, res) => {
+    const accounts = await Account.find({ companyId: res.locals.currentCompany._id, code: { $gte: 5000 } }).sort({ code: 1 });
+    res.render('suppliers/new', { accounts });
+}));
 
 router.post('/', isLoggedIn, validateSupplier, catchAsync(async (req, res, next) => {
     const supplier = new Supplier(req.body.supplier);
@@ -39,7 +41,7 @@ router.post('/', isLoggedIn, validateSupplier, catchAsync(async (req, res, next)
 }))
 
 router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
-    const thisSupplier = await Supplier.findById(req.params.id);
+    const thisSupplier = await Supplier.findById(req.params.id).populate('accountType');
     if (!thisSupplier) {
         req.flash('error', 'supplier not found');
         return res.redirect('/suppliers');
@@ -49,7 +51,8 @@ router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
 
 router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const thisSupplier = await Supplier.findById(req.params.id);
-    res.render('suppliers/edit', { thisSupplier })
+    const accounts = await Account.find({ companyId: res.locals.currentCompany._id, code: { $gte: 5000 } }).sort({ code: 1 });
+    res.render('suppliers/edit', { thisSupplier, accounts })
 }))
 
 router.put('/:id', isLoggedIn, validateSupplier, catchAsync(async (req, res) => {
@@ -68,8 +71,8 @@ router.put('/:id', isLoggedIn, validateSupplier, catchAsync(async (req, res) => 
             };
         }
     }
-
-    const supplier = await Supplier.findByIdAndUpdate(id, { ...req.body.client });
+    console.log(req.body.supplier);
+    const supplier = await Supplier.findByIdAndUpdate(id, { ...req.body.supplier }, { new: true });
     if (Object.keys(changedFields).length > 0) {
         await logAction(req.user.id, 'UPDATE', 'Supplier', supplier._id, { updatedFields: changedFields });
     }

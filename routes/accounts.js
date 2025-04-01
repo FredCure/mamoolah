@@ -25,7 +25,7 @@ const validateAccount = (req, res, next) => {
 
 
 router.get('/', isLoggedIn, catchAsync(async (req, res) => {
-    const accounts = await Account.find({});
+    const accounts = await Account.find({ companyId: res.locals.currentCompany._id }).populate('accountUser').populate('code').sort({ isPrimary: -1, code: 1, name: 1 });
     res.render('accounts/index', { accounts })
 }))
 

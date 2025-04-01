@@ -16,7 +16,10 @@
                                     transaction.companyId.toString()===currentCompany._id.toString()) { %>
                                     <li>
                                         <a href="../transactions/<%= transaction._id %>">
-                                            <%= transaction.transactionDate %><br>
+                                            <%= transaction.supplierId.name %> - <%= transaction.transactionType %> -
+                                                    <%= new
+                                                        Date(transaction.transactionDate).toISOString().split('T')[0] %>
+                                                        <br>
 
                                         </a>
                                     </li>

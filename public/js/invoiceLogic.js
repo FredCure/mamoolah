@@ -17,7 +17,8 @@ function addElementRow() {
                 <option value="13">HST</option>
                 </select>
             </td>
-            <td><button  class="btn btn-outline-info-subtle bg-info-subtle" onclick="removeElementRow(this)"><img src="/images/bin.svg" alt="Girl in a jacket" height="16"></button></td>
+            <td><button  class="btn btn-outline-info-subtle bg-info-subtle" onclick="removeElementRow(this)"><img src="/images/people.svg" alt="People icon" height="16"></button></td>
+            <td><button  class="btn btn-outline-info-subtle bg-info-subtle" onclick="removeElementRow(this)"><img src="/images/bin.svg" alt="Bin icon" height="16"></button></td>
         `;
 }
 

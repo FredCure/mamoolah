@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const sessionConfig = {
     store: MongoStore.create({
-        mongoUrl: 'mongodb://localhost:27017/mamoolah',
+        mongoUrl: 'mongodb://localhost:27017,localhost:27018,localhost:27019/mamoolah?replicaSet=rs0',
         secret: 'badSecret!',
         touchAfter: 24 * 60 * 60
     }),

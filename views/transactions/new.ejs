@@ -9,47 +9,161 @@
 
                 <form action="/transactions" method="POST" novalidate class="validated-form" id="transactionForm">
                     <div class="mb-3">
+                        <label for="origin" class="form-label">Origin account:</label>
+                        <select class="form-control" id="origin" name="transaction[origin]">
+                            <% accounts.forEach(account=> { %>
+                                <% if (account.isPrimary) { %>
+                                    <option value="<%= account._id %>">
+                                        <%= account.code %> - <%= account.name %>
+                                    </option>
+                                    <% } %>
+                                        <% }) %>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="transactionType" class="form-label">Transaction Type:</label>
-                        <select class="form-control" id="transactionType" name="transactionType"
+                        <select class="form-control" id="transactionType" name="transaction[transactionType]"
                             onchange="toggleFields()">
                             <option value="">Select Type</option>
+                            <option value="purchase">Purchase</option>
+                            <option value="crPurchase">Credit Purchase</option>
                             <option value="expense">Expense</option>
                             <option value="income">Income</option>
                             <option value="transfer">Transfer</option>
                             <option value="invoicePayment">Invoice Payment</option>
                         </select>
                     </div>
+
+                    <!-- Changes -->
+
+                    <div id="purchaseFields" class="hidden">
+                        <div class="mb-3">
+                            <label for="purchaseSupplier" class="form-label">Select Supplier:</label>
+                            <select class="form-control" id="purchaseSupplier" name="transaction[supplierId]"
+                                onchange="updateFieldsForSupplier('purchaseSupplier', 'purchaseAccount', 'purchaseTaxes')">
+                                <option value="">Select a supplier</option>
+                                <% suppliers.forEach(supplier=> { %>
+                                    <option value="<%= supplier._id %>"
+                                        data-account-type="<%= supplier.accountType._id %>"
+                                        data-taxes-type="<%= supplier.taxes %>">
+                                        <%= supplier.name %>
+                                    </option>
+                                    <% }) %>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="purchaseAccount" class="form-label">Select Account:</label>
+                            <select class="form-control" id="purchaseAccount" name="transaction[account]" required>
+                                <option value="">Select an account</option>
+                                <% accounts.forEach(account=> { %>
+                                    <% if (account.code>= 5000) { %>
+                                        <option value="<%= account._id %>">
+                                            <%= account.code %> - <%= account.name %>
+                                        </option>
+                                        <% } %>
+                                            <% }) %>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="purchaseTaxes" class="form-label">Applicable taxes:</label>
+                            <select class="form-control" id="purchaseTaxes" name="transaction[taxes]">
+                                <option value="" selected>Select</option>
+                                <option value="null">None (0%)</option>
+                                <option value="exempt">Exempt (0%)</option>
+                                <option value="gstpst">GST / PST (14.975%)</option>
+                                <option value="gst">GST (5%)</option>
+                                <option value="pst">PST (9.975%)</option>
+                                <option value="hst">HST (13%)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="crPurchaseFields" class="hidden">
+                        <div class="mb-3">
+                            <label for="crPurchaseSupplier" class="form-label">Select Supplier:</label>
+                            <select class="form-control" id="crPurchaseSupplier" name="transaction[crSupplierId]"
+                                onchange="updateFieldsForSupplier('crPurchaseSupplier', 'crPurchaseAccount', 'crPurchaseTaxes')">
+                                <option value="">Select a supplier</option>
+                                <% suppliers.forEach(supplier=> { %>
+                                    <option value="<%= supplier._id %>"
+                                        data-account-type="<%= supplier.accountType._id %>"
+                                        data-taxes-type="<%= supplier.taxes %>">
+                                        <%= supplier.name %>
+                                    </option>
+                                    <% }) %>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="crPurchaseAccount" class="form-label">Select Account:</label>
+                            <select class="form-control" id="crPurchaseAccount" name="transaction[crAccount]">
+                                <option value="">Select an account</option>
+                                <% accounts.forEach(account=> { %>
+                                    <% if (account.code>= 5000) { %>
+                                        <option value="<%= account._id %>">
+                                            <%= account.code %> - <%= account.name %>
+                                        </option>
+                                        <% } %>
+                                            <% }) %>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="crPurchaseTaxes" class="form-label">Applicable taxes:</label>
+                            <select class="form-control" id="crPurchaseTaxes" name="transaction[crTaxes]">
+                                <option value="" selected>Select</option>
+                                <option value="null">None (0%)</option>
+                                <option value="exempt">Exempt (0%)</option>
+                                <option value="gstpst">GST / PST (14.975%)</option>
+                                <option value="gst">GST (5%)</option>
+                                <option value="pst">PST (9.975%)</option>
+                                <option value="hst">HST (13%)</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="mb-3">
                         <label for="date" class="form-label">Date:</label>
-                        <input type="date" class="form-control" id="date" name="date" required>
+                        <input type="date" class="form-control" id="date" name="transaction[transactionDate]"
+                            value="<%= new Date().toISOString().split('T')[0] %>" required>
                     </div>
                     <div class="mb-3">
                         <label for="amount" class="form-label">Amount:</label>
-                        <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
+                        <input type="number" class="form-control" id="amount" name="transaction[amount]" step="0.01"
+                            required>
                     </div>
                     <div class="mb-3">
-                        <label for="description" class="form-label">Description:</label>
-                        <input type="text" class="form-control" id="description" name="description">
+                        <label for="currency" class="form-label">Currency:</label>
+                        <select class="form-control" id="currency" name="transaction[currency]">
+                            <option value="CAD">CAD</option>
+                            <option value="USD">USD</option>
+                        </select>
                     </div>
-                    <div id="expenseFields" class="mb-3 hidden">
-                        <label for="expenseCategory" class="form-label">Expense Category:</label>
-                        <input type="text" class="form-control" id="expenseCategory" name="expenseCategory">
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Notes:</label>
+                        <input type="text" class="form-control" id="notes" name="transaction[notes]">
+                    </div>
+                    <!-- <div id="expenseFields" class="hidden">
+                        <div class="mb-3">
+                            <label for="expenseCategory" class="form-label">Expense Category:</label>
+                            <input type="text" class="form-control" id="expenseCategory"
+                                name="transaction[expenseCategory]">
+                        </div>
+
                     </div>
                     <div id="incomeFields" class="mb-3 hidden">
                         <label for="incomeSource" class="form-label">Income Source:</label>
-                        <input type="text" class="form-control" id="incomeSource" name="incomeSource">
+                        <input type="text" class="form-control" id="incomeSource" name="transaction[incomeSource]">
                     </div>
                     <div id="transferFields" class="mb-3 hidden">
                         <label for="fromAccount" class="form-label">From Account:</label>
-                        <input type="text" class="form-control" id="fromAccount" name="fromAccount">
+                        <input type="text" class="form-control" id="fromAccount" name="transaction[fromAccount]">
                         <br><br>
                         <label for="toAccount" class="form-label">To Account:</label>
-                        <input type="text" class="form-control" id="toAccount" name="toAccount">
+                        <input type="text" class="form-control" id="toAccount" name="transaction[toAccount]">
                     </div>
                     <div id="invoicePaymentFields" class="mb-3 hidden">
                         <label for="invoiceNumber" class="form-label">Invoice Number:</label>
-                        <input type="text" class="form-control" id="invoiceNumber" name="invoiceNumber">
-                    </div>
+                        <input type="text" class="form-control" id="invoiceNumber" name="transaction[invoiceNumber]">
+                    </div> -->
                     <button class="btn btn-outline-info-subtle bg-info-subtle">Save new transaction</button>
                 </form>
 

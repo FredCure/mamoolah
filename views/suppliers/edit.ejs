@@ -23,6 +23,32 @@
                         </div>
                     </div>
                     <div class="mb-3">
+                        <label for="accountType" class="form-label">Type of Account</label>
+                        <select class="form-control" id="accountType" name="supplier[accountType]">
+                            <option value="">Select an account</option>
+                            <% accounts.forEach(account=> { %>
+                                <option value="<%= account._id %>" <%=thisSupplier.accountType &&
+                                    thisSupplier.accountType.toString()===account._id.toString() ? 'selected' : '' %>>
+                                    <%= account.code %> - <%= account.name %>
+                                </option>
+                                <% }) %>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="taxes" class="form-label">Applicable taxes:</label>
+                        <select class="form-control" id="taxes" name="supplier[taxes]">
+                            <option value="" selected>Select </option>
+                            <option value="null" <%=thisSupplier.taxes==='null' ? 'selected' : '' %>>None (0%)</option>
+                            <option value="exempt" <%=thisSupplier.taxes==='exempt' ? 'selected' : '' %>>Exempt (0%)
+                            </option>
+                            <option value="gstpst" <%=thisSupplier.taxes==='gstpst' ? 'selected' : '' %>>GST / PST
+                                (14.975%)</option>
+                            <option value="gst" <%=thisSupplier.taxes==='gst' ? 'selected' : '' %>>GST (5%)</option>
+                            <option value="pst" <%=thisSupplier.taxes==='pst' ? 'selected' : '' %>>PST (9.975%)</option>
+                            <option value="hst" <%=thisSupplier.taxes==='hst' ? 'selected' : '' %>>HST (13%)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="contact" class="form-label">Contact Name</label>
                         <input type="text" class="form-control" id="contact" name="supplier[contact]"
                             value="<%= thisSupplier.contact %>">
@@ -80,7 +106,7 @@
                         <input type="text" class="form-control" id="addressCountry" name="supplier[addressCountry]"
                             value="<%= thisSupplier.addressCountry %>">
                     </div>
-                    <button class="btn btn-outline-info-subtle bg-info-subtle">Save new supplier</button>
+                    <button class="btn btn-outline-info-subtle bg-info-subtle">Update supplier</button>
                 </form>
 
             </div>

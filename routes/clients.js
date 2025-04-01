@@ -27,9 +27,11 @@ router.get('/', isLoggedIn, catchAsync(async (req, res) => {
     res.render('clients/index', { clients })
 }))
 
-router.get('/new', isLoggedIn, (req, res) => {
-    res.render('clients/new');
-})
+router.get('/new', isLoggedIn, catchAsync(async (req, res) => {
+    const companyId = res.locals.currentCompany._id; // Assuming the company ID is stored in the user's session
+    const company = await Company.findById(companyId).populate('users');
+    res.render('clients/new', { users: company.users });
+}))
 
 router.post('/', isLoggedIn, validateClient, catchAsync(async (req, res, next) => {
     const client = new Client(req.body.client);
@@ -41,7 +43,7 @@ router.post('/', isLoggedIn, validateClient, catchAsync(async (req, res, next) =
 }))
 
 router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
-    const thisClient = await Client.findById(req.params.id).populate('invoices');
+    const thisClient = await Client.findById(req.params.id).populate('salesRep').populate('invoices');
     if (!thisClient) {
         req.flash('error', 'Client not found');
         return res.redirect('/clients');
@@ -51,7 +53,10 @@ router.get('/:id', isLoggedIn, catchAsync(async (req, res) => {
 
 router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const thisClient = await Client.findById(req.params.id);
-    res.render('clients/edit', { thisClient })
+    console.log(thisClient);
+    const companyId = res.locals.currentCompany._id; // Assuming the company ID is stored in the user's session
+    const company = await Company.findById(companyId).populate('users');
+    res.render('clients/edit', { thisClient, users: company.users });
 }))
 
 router.put('/:id', isLoggedIn, validateClient, catchAsync(async (req, res) => {

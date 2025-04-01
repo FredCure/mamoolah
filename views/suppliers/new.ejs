@@ -16,6 +16,29 @@
                         </div>
                     </div>
                     <div class="mb-3">
+                        <label for="accountType" class="form-label">Type of Account</label>
+                        <select class="form-control" id="accountType" name="supplier[accountType]">
+                            <option value="" selected>Select an account</option>
+                            <% accounts.forEach(account=> { %>
+                                <option value="<%= account._id %>">
+                                    <%= account.code %> - <%= account.name %>
+                                </option>
+                                <% }) %>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="taxes" class="form-label">Applicable taxes:</label>
+                        <select class="form-control" id="taxes" name="supplier[taxes]">
+                            <option value="" selected>Select </option>
+                            <option value="null">None (0%)</option>
+                            <option value="exempt">Exempt (0%)</option>
+                            <option value="gstpst">GST / PST (14.975%)</option>
+                            <option value="gst">GST (5%)</option>
+                            <option value="pst">PST (9.975%)</option>
+                            <option value="hst">HST (13%)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="contact" class="form-label">Contact Name</label>
                         <input type="text" class="form-control" id="contact" name="supplier[contact]">
                     </div>

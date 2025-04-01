@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
+const { use } = require('passport');
 const Schema = mongoose.Schema;
 
 
-const WorkerSchema = new Schema({
-    name: { type: String, required: true },
+const RevDistributionSchema = new Schema({
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     rate: { type: Number, required: true },
     hours: { type: Number, required: true },
     fixed: { type: Number, required: true },
@@ -22,7 +23,7 @@ const ElementSchema = new Schema({
         enum: [0, 14.975, 5, 9.975, 13],
         required: true
     },
-    workers: [WorkerSchema]
+    revDistribution: [RevDistributionSchema]
 });
 
 const InvoiceSchema = new Schema({

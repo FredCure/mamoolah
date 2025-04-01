@@ -43,7 +43,26 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><strong>Invoice Address :</strong></td>
+                                <td><strong>Applicable taxes:</strong></td>
+                                <td colspan="2">
+                                    <%= thisClient.taxes %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Default terms:</strong></td>
+                                <td colspan="2">
+                                    <%= thisClient.terms %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sales Representative:</strong></td>
+                                <td colspan="2">
+                                    <%= thisClient.salesRep.firstName %>
+                                        <%= thisClient.salesRep.lastName %> - <%= thisClient.salesRep.email %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Invoice Address:</strong></td>
                                 <td colspan="2">
                                     <%= thisClient.invoiceStreet %> <br>
                                         <%= thisClient.invoiceCity %>, <%= thisClient.invoiceState %> <br>
@@ -52,7 +71,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><strong>Shipping Address :</strong></td>
+                                <td><strong>Shipping Address:</strong></td>
                                 <td colspan="2">
                                     <%= thisClient.shipStreet %> <br>
                                         <%= thisClient.shipCity %>, <%= thisClient.shipState %> <br>
@@ -61,7 +80,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="3"><strong>Invoices :</strong></td>
+                                <td colspan="3"><strong>Invoices:</strong></td>
                             </tr>
                             <% thisClient.invoices.forEach(element=> { %>
                                 <% if (element.companyId && currentCompany && element.clientId &&
